@@ -13,7 +13,7 @@ Successfull app flow:
 4. Read table data to python
 5. Convert data to JSON
 6. Create channel for movies notification
-7. Receive websocket subscription data (?? not included in specs ??)
+7. Receive websocket subscription data (?? not included in specs ??)<br>
  7.1 Server needs to create WS open connection to gather part of the data. 
 8. Subscribe movies (?? not included in specs ??)
 9. Modify data of any movie 
