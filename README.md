@@ -26,7 +26,7 @@ Let's give websocket client capability to trigger notification.
 Other letters of CRUD (beside U) are optional.
 
 ## Notification Channel API 
-Implementing whole API is mandatory.
+Implementing whole API is mandatory. Users or api version can be mocked.
 ![image](https://github.com/KubaTaba1uga/python_websocket_notifications/assets/73971628/9688771e-ee31-46cd-930b-bc2a59eddf18)
 
 
