@@ -6,7 +6,7 @@ Mechanism for notifications need to be inline with [SPEC](https://github.com/Kub
 ## Requirements
 We need some data to subscribe so, let's create subscription for movies. Wouldn't You like to know when the next premiere is being moved? 
 
-So in quick summary:
+Successfull app flow:
 1. Create any sql db 
 2. Create table for movies
 3. Populate Data with movies
