@@ -12,6 +12,10 @@ So in quick summary:
 7. Modify data of any movie 
 8. Receive notification
 
+SQL - sqlalchemy
+WEBSOCKET - 
+TESTS - pytest
+
 ## Movies U(CRUD)
 Let's give websocket client capability to trigger notification.
 Other letters of CRUD (beside U) are optional.
