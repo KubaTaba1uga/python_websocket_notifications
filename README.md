@@ -12,6 +12,9 @@ So in quick summary:
 7. Modify data of any movie 
 8. Receive notification
 
+
+## Stack
+HTTP SERVER - [aiohttp](https://docs.aiohttp.org/en/stable/index.html) <br>
 SQL - [sqlalchemy](https://www.sqlalchemy.org/) <br>
 WEBSOCKET - [websockets](https://websockets.readthedocs.io/en/stable/index.html) <br>
 TESTS - [pytest](https://docs.pytest.org/en/7.4.x/) <br> 
@@ -21,6 +24,7 @@ Let's give websocket client capability to trigger notification.
 Other letters of CRUD (beside U) are optional.
 
 ## Notification Channel API 
+Implementing whole API is mandatory.
 ![image](https://github.com/KubaTaba1uga/python_websocket_notifications/assets/73971628/9688771e-ee31-46cd-930b-bc2a59eddf18)
 
 
