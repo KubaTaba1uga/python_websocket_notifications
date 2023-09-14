@@ -1,4 +1,8 @@
 # Python Websocket Notifications 
+Create http service for managing websocket channels, updating data embedded into an app.
+
+Mechanism for notifications need to be inline with [SPEC](https://github.com/KubaTaba1uga/python_websocket_notifications/blob/main/OMA-TS-REST_NetAPI_NotificationChannel-V1_0-20200319-C.pdf).  
+
 ## Requirements
 We need some data to subscribe so, let's create subscription for movies. Wouldn't You like to know when the next premiere is being moved? 
 
