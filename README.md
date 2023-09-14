@@ -10,7 +10,7 @@ So in quick summary:
 5. Convert data to JSON
 6. Create channel for movies notification
 7. Receive websocket subscription data (?? not included in specs ??)
-8. Subscribe movies
+8. Subscribe movies (?? not included in specs ??)
 9. Modify data of any movie 
 10. Receive notification
 
