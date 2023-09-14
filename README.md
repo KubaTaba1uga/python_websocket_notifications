@@ -14,10 +14,11 @@ Successfull app flow:
 5. Convert data to JSON
 6. Create channel for movies notification
 7. Receive websocket subscription data (?? not included in specs ??)<br>
- 7.1 Server needs to create WS open connection to gather part of the data. 
-8. Subscribe movies (?? not included in specs ??)
-9. Modify data of any movie 
-10. Receive notification
+ 7.1 Server needs to create WS open connection <br>
+ 7.2 While connection remains open send data required to connect to it to client <br>
+9. Subscribe movies (?? not included in specs ??)
+10. Modify data of any movie 
+11. Receive notification
 
 
 ## Stack
