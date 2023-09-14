@@ -12,9 +12,9 @@ So in quick summary:
 7. Modify data of any movie 
 8. Receive notification
 
-SQL - sqlalchemy
-WEBSOCKET - 
-TESTS - pytest
+SQL - [sqlalchemy](https://www.sqlalchemy.org/) <br>
+WEBSOCKET - [websockets](https://websockets.readthedocs.io/en/stable/index.html) <br>
+TESTS - [pytest](https://docs.pytest.org/en/7.4.x/) <br> 
 
 ## Movies U(CRUD)
 Let's give websocket client capability to trigger notification.
