@@ -4,8 +4,8 @@ To make testsing easier, U(from CRUD) for app's data, can be implemented.
 
 Managin channel has to be inline with [SPEC](https://github.com/KubaTaba1uga/python_websocket_notifications/blob/main/OMA-TS-REST_NetAPI_NotificationChannel-V1_0-20200319-C.pdf).  
 
-My main reference is `Appendix I Notification delivery using WebSockets`. Bullet points from it:
-1. Create Subprotocol Registration is Sec-WebSocket-Protocol
+Bullet points from `Appendix I Notification delivery using WebSockets`:
+1. Create Subprotocol Registration in Sec-WebSocket-Protocol
 2. do not implement connCheck/connAck in application layer (at this point)
 3. Use notificationList for all notifications, this way mechanism is more generic
 4. NotificationChannel data structure includes a “channelURL” element which provides a URI of scheme “ws:” or “wss:”(this URI mechanism is descrybed further).
