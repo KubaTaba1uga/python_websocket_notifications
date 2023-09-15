@@ -10,6 +10,10 @@ Bullet points from `Appendix I Notification delivery using WebSockets`:
 3. Use notificationList for all notifications, this way mechanism is more generic
 4. NotificationChannel data structure includes a “channelURL” element which provides a URI of scheme “ws:” or “wss:”(this URI mechanism is descrybed further).
 
+Bullet points from 5.1.4 in NMS API (to fullfill).
+1. A box represents the logical store that belongs to designated owner(s).
+2. To subscribe to NMS notifications, create a new resource under http://{serverRoot}/nms/{apiVersion}/{storeName}/{boxId}/subscriptions
+![image](https://github.com/KubaTaba1uga/python_websocket_notifications/assets/73971628/36737ef5-28b8-494e-8b1e-b0c56db82021)
 
 
 
@@ -59,3 +63,6 @@ Implementing whole API is mandatory. Users or api version can be mocked.
 
 ## Deliver Notification
 ![image](https://github.com/KubaTaba1uga/python_websocket_notifications/assets/73971628/44b5ed83-3b08-4b8c-ab75-85fc733e4dcb)
+
+## Manage Subscription
+![image](https://github.com/KubaTaba1uga/python_websocket_notifications/assets/73971628/9851ebc8-db0f-4643-b774-b242ebc75404)
