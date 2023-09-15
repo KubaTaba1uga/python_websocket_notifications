@@ -72,3 +72,6 @@ Implementing whole API is mandatory. Users or api version can be mocked.
 
 ## What should be first? Subscription or Channel?
 ![image](https://github.com/KubaTaba1uga/python_websocket_notifications/assets/73971628/14ce62fe-ef94-47a6-9956-d92140dfa05c)
+
+## What is CallbackURL?
+![image](https://github.com/KubaTaba1uga/python_websocket_notifications/assets/73971628/427787e9-291c-4a27-943b-f78285137512)
