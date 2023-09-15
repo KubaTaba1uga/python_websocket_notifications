@@ -16,6 +16,8 @@ Bullet points from `Appendix I Notification delivery using WebSockets`:
 ## Requirements
 We need some data to subscribe so, let's create subscription for movies. Wouldn't You like to know when the next premiere is being moved? 
 
+Box'es have to be implemented as described in 5.1.3 in
+
 Successfull app flow:
 1. Create any sql db 
 2. Create table for movies
@@ -40,6 +42,9 @@ TESTS - [pytest](https://docs.pytest.org/en/7.4.x/) <br>
 ## Movies U(CRUD)
 Let's give websocket client capability to trigger notification.
 Other letters of CRUD (beside U) are optional.
+
+## Subscriptions and notifications
+
 
 ## Quick Summary
 ![image](https://github.com/KubaTaba1uga/python_websocket_notifications/assets/73971628/3e31b2e5-fe51-475e-a61c-77f62d800de7)
