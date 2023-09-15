@@ -41,6 +41,9 @@ TESTS - [pytest](https://docs.pytest.org/en/7.4.x/) <br>
 Let's give websocket client capability to trigger notification.
 Other letters of CRUD (beside U) are optional.
 
+## Quick Summary
+![image](https://github.com/KubaTaba1uga/python_websocket_notifications/assets/73971628/3e31b2e5-fe51-475e-a61c-77f62d800de7)
+
 ## Notification Channel API 
 Implementing whole API is mandatory. Users or api version can be mocked.
 ![image](https://github.com/KubaTaba1uga/python_websocket_notifications/assets/73971628/9688771e-ee31-46cd-930b-bc2a59eddf18)
