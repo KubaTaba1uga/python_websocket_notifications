@@ -69,3 +69,6 @@ Implementing whole API is mandatory. Users or api version can be mocked.
 
 ## How i see relation between Subscription and Channel 
 ![image](https://github.com/KubaTaba1uga/python_websocket_notifications/assets/73971628/fcc6f413-4b18-45e5-b797-e00c5f59876a)
+
+## What should be first? Subscription or Channel?
+![image](https://github.com/KubaTaba1uga/python_websocket_notifications/assets/73971628/14ce62fe-ef94-47a6-9956-d92140dfa05c)
