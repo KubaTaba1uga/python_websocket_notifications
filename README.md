@@ -76,3 +76,8 @@ Implementing whole API is mandatory. Users or api version can be mocked.
 ## What is CallbackURL?
 ![image](https://github.com/KubaTaba1uga/python_websocket_notifications/assets/73971628/f9394868-5cb1-40bc-9821-e1a403f063e8)
 ![image](https://github.com/KubaTaba1uga/python_websocket_notifications/assets/73971628/258a244c-8ffa-458b-b315-ff50bebb6326)
+![image](https://github.com/KubaTaba1uga/python_websocket_notifications/assets/73971628/7f5888bd-f2d7-4642-bd1b-8931906ad324)
+Let's assume for a moment that callback URL points to some <channel>/ws on the server. Then server uses that info to determine that all messages connected to this subscription should be sent to the cleint via this ws.
+This makes sense however it is in conflict with ## How i see relation between Subscription and Channel. I'm not sure yet which one is correct.
+
+
