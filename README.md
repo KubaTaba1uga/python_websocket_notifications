@@ -1,7 +1,18 @@
 # Python Websocket Notifications 
-Create http service for managing websocket channels, updating data embedded into an app.
+Create http service for managing websocket channels.
+To make testsing easier, U(from CRUD) for app's data, can be implemented.
 
-Mechanism for notifications need to be inline with [SPEC](https://github.com/KubaTaba1uga/python_websocket_notifications/blob/main/OMA-TS-REST_NetAPI_NotificationChannel-V1_0-20200319-C.pdf).  
+Managin channel has to be inline with [SPEC](https://github.com/KubaTaba1uga/python_websocket_notifications/blob/main/OMA-TS-REST_NetAPI_NotificationChannel-V1_0-20200319-C.pdf).  
+
+My main reference is `Appendix I Notification delivery using WebSockets`. Bullet points from it:
+1. Create Subprotocol Registration is Sec-WebSocket-Protocol
+2. implement connCheck/connAck in application layer
+3. Use notificationList for all notifications, this way mechanism is more generic
+
+Sending notifications is not part of the spec. At this point channel will be created, so left to precise is <channel_id>/ws endpoint logic.
+1. Trigger
+
+
 
 ## Requirements
 We need some data to subscribe so, let's create subscription for movies. Wouldn't You like to know when the next premiere is being moved? 
