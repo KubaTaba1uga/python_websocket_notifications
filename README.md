@@ -74,4 +74,4 @@ Implementing whole API is mandatory. Users or api version can be mocked.
 ![image](https://github.com/KubaTaba1uga/python_websocket_notifications/assets/73971628/14ce62fe-ef94-47a6-9956-d92140dfa05c)
 
 ## What is CallbackURL?
-![image](https://github.com/KubaTaba1uga/python_websocket_notifications/assets/73971628/427787e9-291c-4a27-943b-f78285137512)
+![image](https://github.com/KubaTaba1uga/python_websocket_notifications/assets/73971628/f9394868-5cb1-40bc-9821-e1a403f063e8)
