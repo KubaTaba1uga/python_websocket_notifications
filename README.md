@@ -6,11 +6,10 @@ Managin channel has to be inline with [SPEC](https://github.com/KubaTaba1uga/pyt
 
 My main reference is `Appendix I Notification delivery using WebSockets`. Bullet points from it:
 1. Create Subprotocol Registration is Sec-WebSocket-Protocol
-2. implement connCheck/connAck in application layer
+2. do not implement connCheck/connAck in application layer (at this point)
 3. Use notificationList for all notifications, this way mechanism is more generic
+4. NotificationChannel data structure includes a “channelURL” element which provides a URI of scheme “ws:” or “wss:”(this URI mechanism is descrybed further).
 
-Sending notifications is not part of the spec. At this point channel will be created, so left to precise is <channel_id>/ws endpoint logic.
-1. Trigger
 
 
 
