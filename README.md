@@ -66,3 +66,6 @@ Implementing whole API is mandatory. Users or api version can be mocked.
 
 ## Manage Subscription
 ![image](https://github.com/KubaTaba1uga/python_websocket_notifications/assets/73971628/9851ebc8-db0f-4643-b774-b242ebc75404)
+
+## How i see relation between Subscription and Channel 
+![image](https://github.com/KubaTaba1uga/python_websocket_notifications/assets/73971628/fcc6f413-4b18-45e5-b797-e00c5f59876a)
