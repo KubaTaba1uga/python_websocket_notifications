@@ -11,7 +11,7 @@ Managin channel has to be inline with [SPEC](https://github.com/KubaTaba1uga/pyt
    1.3 Creating a subscription -> creating a worker <br>
    1.4 What should trigger new notification in worker? <br>
 3. Create enpoint for managing channels <br>
-[Optional] 3. Create endpoint for updating app's data <br>
+4. [Optional] Create endpoint for updating app's data <br>
 
 
 Bullet points from `Appendix I Notification delivery using WebSockets`:
