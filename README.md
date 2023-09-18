@@ -4,6 +4,16 @@ To make testsing easier, U(from CRUD) for app's data, can be implemented.
 
 Managin channel has to be inline with [SPEC](https://github.com/KubaTaba1uga/python_websocket_notifications/blob/main/OMA-TS-REST_NetAPI_NotificationChannel-V1_0-20200319-C.pdf).  
 
+##  Solution overview
+1. Create endpoint for managing subscriptions
+   1.1 New subscription require callback reference (WS channel URI)
+   1.2 RestartToken should be object's lat edit timestamp (more info in 5.1.4.3.1)
+   1.3 Creating a subscription -> creating a worker
+   1.4 What should trigger new notification in worker?
+3. Create enpoint for managing channels
+[Optional] 3. Create endpoint for updating app's data
+
+
 Bullet points from `Appendix I Notification delivery using WebSockets`:
 1. Create Subprotocol Registration in Sec-WebSocket-Protocol
 2. do not implement connCheck/connAck in application layer (at this point)
@@ -14,8 +24,6 @@ Bullet points from 5.1.4 in NMS API (to fullfill).
 1. A box represents the logical store that belongs to designated owner(s).
 2. To subscribe to NMS notifications, create a new resource under http://{serverRoot}/nms/{apiVersion}/{storeName}/{boxId}/subscriptions
 ![image](https://github.com/KubaTaba1uga/python_websocket_notifications/assets/73971628/36737ef5-28b8-494e-8b1e-b0c56db82021)
-
-
 
 ## Requirements
 We need some data to subscribe so, let's create subscription for movies. Wouldn't You like to know when the next premiere is being moved? 
