@@ -5,13 +5,13 @@ To make testsing easier, U(from CRUD) for app's data, can be implemented.
 Managin channel has to be inline with [SPEC](https://github.com/KubaTaba1uga/python_websocket_notifications/blob/main/OMA-TS-REST_NetAPI_NotificationChannel-V1_0-20200319-C.pdf).  
 
 ##  Solution overview
-1. Create endpoint for managing subscriptions
-   1.1 New subscription require callback reference (WS channel URI)
-   1.2 RestartToken should be object's lat edit timestamp (more info in 5.1.4.3.1)
-   1.3 Creating a subscription -> creating a worker
-   1.4 What should trigger new notification in worker?
-3. Create enpoint for managing channels
-[Optional] 3. Create endpoint for updating app's data
+1. Create endpoint for managing subscriptions <br>
+   1.1 New subscription require callback reference (WS channel URI) <br>
+   1.2 RestartToken should be object's lat edit timestamp (more info in 5.1.4.3.1) <br>
+   1.3 Creating a subscription -> creating a worker <br>
+   1.4 What should trigger new notification in worker? <br>
+3. Create enpoint for managing channels <br>
+[Optional] 3. Create endpoint for updating app's data <br>
 
 
 Bullet points from `Appendix I Notification delivery using WebSockets`:
