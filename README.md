@@ -9,7 +9,7 @@ Managin channel has to be inline with [SPEC](https://github.com/KubaTaba1uga/pyt
    1.1 New subscription require callback reference (WS channel URI) <br>
    1.2 RestartToken should be object's lat edit timestamp (more info in 5.1.4.3.1) <br>
    1.3 Creating a subscription -> creating a worker <br>
-   1.4 What should trigger new notification in worker? <br>
+   1.4 What should trigger new notification in worker? (SQL change? then some kind of search query > sql converter is needed? )<br>
 3. Create enpoint for managing channels <br>
 4. [Optional] Create endpoint for updating app's data <br>
 
