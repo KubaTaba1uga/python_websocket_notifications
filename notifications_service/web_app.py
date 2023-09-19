@@ -4,11 +4,11 @@ from fastapi import HTTPException
 from sqlalchemy.orm import Session
 
 from shared import db_models as models
+from shared import user
 from shared.database import engine
 from shared.database import SessionLocal
 
 from . import schemas
-from . import user
 
 models.Base.metadata.create_all(bind=engine)
 
