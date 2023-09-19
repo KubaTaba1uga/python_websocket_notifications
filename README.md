@@ -1,10 +1,23 @@
 # Python Websocket Notifications 
 Create http service for managing websocket channels.
-To make testsing easier, U(from CRUD) for app's data, can be implemented.
+To make testsing easier, CRUD for app's data, can be implemented.
 
 Managin channel has to be inline with [SPEC](https://github.com/KubaTaba1uga/python_websocket_notifications/blob/main/OMA-TS-REST_NetAPI_NotificationChannel-V1_0-20200319-C.pdf).  
 
+## Example overview
+Chat service. Message is composed of Body, From and To. Nothing fancy.
+
 ##  Solution overview
+Subscriptions are part of MessageStore. However channels(notifications) should be seperated into a service. 
+
+Message store makes obj dump (if it qualifies for change tracing) and sends it to NotificationService tohetger with user id.
+NotificationService downloads all subscriptions for specific user,if there is a match send obj_dump to specific channel queue.
+Websocket have two modes: broadcasting live or replaying past.
+If websocket is broadcasting live, channel's queue is popped to recive a message.
+If websocket is replaying from past, search is being performed to recive messages.
+
+### Some notes:
+
 1. Create endpoint for managing subscriptions <br>
    1.1 New subscription require callback reference (WS channel URI) <br>
    1.2 RestartToken should be object's lat edit timestamp (more info in 5.1.4.3.1) <br>
@@ -25,37 +38,11 @@ Bullet points from 5.1.4 in NMS API (to fullfill).
 2. To subscribe to NMS notifications, create a new resource under http://{serverRoot}/nms/{apiVersion}/{storeName}/{boxId}/subscriptions
 ![image](https://github.com/KubaTaba1uga/python_websocket_notifications/assets/73971628/36737ef5-28b8-494e-8b1e-b0c56db82021)
 
-## Requirements
-We need some data to subscribe so, let's create subscription for movies. Wouldn't You like to know when the next premiere is being moved? 
-
-Box'es have to be implemented as described in 5.1.3 in
-
-Successfull app flow:
-1. Create any sql db 
-2. Create table for movies
-3. Populate Data with movies
-4. Read table data to python
-5. Convert data to JSON
-6. Create channel for movies notification
-7. Receive websocket subscription data (?? not included in specs ??)<br>
- 7.1 Server needs to create WS open connection <br>
- 7.2 While connection remains open send data required to connect to it to client <br>
-9. Subscribe movies (?? not included in specs ??)
-10. Modify data of any movie 
-11. Receive notification
-
-
 ## Stack
 HTTP SERVER - [aiohttp](https://docs.aiohttp.org/en/stable/index.html) <br>
 SQL - [sqlalchemy](https://www.sqlalchemy.org/) <br>
 WEBSOCKET - [websockets](https://websockets.readthedocs.io/en/stable/index.html) <br>
 TESTS - [pytest](https://docs.pytest.org/en/7.4.x/) <br> 
-
-## Movies U(CRUD)
-Let's give websocket client capability to trigger notification.
-Other letters of CRUD (beside U) are optional.
-
-## Subscriptions and notifications
 
 
 ## Quick Summary
