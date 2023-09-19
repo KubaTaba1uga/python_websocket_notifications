@@ -37,5 +37,5 @@ services:
       - ./db/.data/:/var/lib/postgresql/data/
       # In this example, we share an init.sql script with the container
       # The init script will be executed when the database is first run
-      # - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./db/migrations/initialize_db.sql:/docker-entrypoint-initdb.d/init.sql
 
