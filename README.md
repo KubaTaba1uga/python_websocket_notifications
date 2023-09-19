@@ -10,11 +10,11 @@ Chat service. Message is composed of Body, From and To. Nothing fancy.
 ##  Solution overview
 Subscriptions are part of MessageStore. However channels(notifications) should be seperated into a service. 
 
-Message store makes obj dump (if it qualifies for change tracing) and sends it to NotificationService tohetger with user id.
-NotificationService downloads all subscriptions for specific user,if there is a match send obj_dump to specific channel queue.
-Websocket have two modes: broadcasting live or replaying past.
-If websocket is broadcasting live, channel's queue is popped to recive a message.
-If websocket is replaying from past, search is being performed to recive messages.
+Message store makes obj dump (if it qualifies for change tracing) and sends it to NotificationService tohetger with user id. <br>
+NotificationService downloads all subscriptions for specific user,if there is a match send obj_dump to specific channel queue. <br>
+Websocket have two modes: broadcasting live or replaying past. <br>
+If websocket is broadcasting live, channel's queue is popped to recive a message. <br>
+If websocket is replaying from past, search is being performed to recive messages. <br>
 
 ### Some notes:
 
