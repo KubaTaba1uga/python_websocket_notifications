@@ -12,7 +12,10 @@ classifiers = [
 ]
 version = "0.0.1"
 dependencies = [
-
+       "sqlalchemy==2.0.21",
+       "fastapi==0.103.1",
+       "pydantic==2.3.0",
+       "uvicorn==0.23.2"
 ]
 
 [project.urls]
