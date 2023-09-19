@@ -1,5 +1,5 @@
 venv_name := .venv
-sources := notifications_service db test
+sources := notifications_service message_store db test
 
 help:
 	@echo "lint - check style with ruff and mypy"
