@@ -1,5 +1,5 @@
 venv_name := .venv
-sources := notifications_service test
+sources := notifications_service db test
 
 help:
 	@echo "lint - check style with ruff and mypy"
@@ -38,6 +38,7 @@ install-test:
 
 clean: 
 	rm -rf $(venv_name)
+	rm -rf db/.data
 
 clean-pyc:
 	find . -name '*.pyc' -exec rm -f {} +
