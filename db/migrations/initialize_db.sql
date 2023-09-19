@@ -21,5 +21,7 @@ INSERT INTO message (content, from_, to_) VALUES
        ('Czesc Kuba', 1, 2),
        ('Czesc Maciek', 2, 1),
        ('Lubie wszystko', 4, 3),
-       ('Nie lubie nic', 3, 4);
+       ('Nie lubie nic', 3, 4),
+       ('Kocham kotki', 5, 3),
+       ('Kocham foki', 1, 5);
 
