@@ -1,6 +1,15 @@
 version: '3'
 
 services:
+  message_store:
+    build: ./message_store
+
+    ports:
+      - 80:80
+
+    env_file:
+      - .env      
+      
   database:
     # Official Postgres image from DockerHub (last version)
     image: 'postgres:latest'
