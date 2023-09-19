@@ -22,7 +22,7 @@ format:
 	python -m isort $(sources)
 
 unit-test:
-	export $(cat .test.env | xargs) && python -m pytest test/* -vv
+	export `cat .test.env | xargs` && python -m pytest test/* -vv
 
 venv:
 	python3 -m virtualenv $(venv_name)

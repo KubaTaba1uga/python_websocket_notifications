@@ -6,4 +6,5 @@ from shared import user as db_user
 
 @pytest.fixture
 def db_users():
-    return db_user.get_users(get_db())
+    db = list(get_db()).pop()
+    return db_user.get_users(db)
