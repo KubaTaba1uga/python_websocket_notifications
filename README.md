@@ -10,8 +10,8 @@ Chat service. Message is composed of Body, From and To. Nothing fancy.
 ##  Solution overview
 Subscriptions are part of MessageStore. However channels(notifications) should be seperated into a service. 
 
-Message store makes obj dump (if it qualifies for change tracing) and sends it to NotificationService tohetger with user id. <br>
-NotificationService downloads all subscriptions for specific user,if there is a match send obj_dump to specific channel queue. <br>
+Message store makes obj dump (if request qualifies for change tracing) and sends it to NotificationService tohetger with user id (box id). <br>
+NotificationService downloads all subscriptions for specific user, if there is a match sends obj_dump to specific channel queue. <br>
 Websocket have two modes: broadcasting live or replaying past. <br>
 If websocket is broadcasting live, channel's queue is popped to recive a message. <br>
 If websocket is replaying from past, search is being performed to recive messages. <br>
@@ -61,9 +61,6 @@ Implementing whole API is mandatory. Users or api version can be mocked.
 
 ## Manage Subscription
 ![image](https://github.com/KubaTaba1uga/python_websocket_notifications/assets/73971628/9851ebc8-db0f-4643-b774-b242ebc75404)
-
-## How i see relation between Subscription and Channel 
-![image](https://github.com/KubaTaba1uga/python_websocket_notifications/assets/73971628/fcc6f413-4b18-45e5-b797-e00c5f59876a)
 
 ## What should be first? Subscription or Channel?
 ![image](https://github.com/KubaTaba1uga/python_websocket_notifications/assets/73971628/14ce62fe-ef94-47a6-9956-d92140dfa05c)
