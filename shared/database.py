@@ -2,11 +2,15 @@ from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-SQLALCHEMY_DATABASE_URL = "postgresql://user:password@postgresserver/db"
+from .env import get_env_var
 
-engine = create_engine(
-    SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False}
-)
+username = get_env_var("POSTGRES_USER")
+password = get_env_var("POSTGRES_PASSWORD")
+db = get_env_var("POSTGRES_DB")
+
+SQLALCHEMY_DATABASE_URL = f"postgresql://{username}:{password}@database/{db}"
+
+engine = create_engine(SQLALCHEMY_DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 Base = declarative_base()

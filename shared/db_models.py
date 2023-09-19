@@ -1,4 +1,3 @@
-from sqlalchemy import Boolean
 from sqlalchemy import Column
 from sqlalchemy import ForeignKey
 from sqlalchemy import Integer
@@ -19,6 +18,5 @@ class Message(Base):
 
     id = Column(Integer, primary_key=True, index=True)
     content = Column(String, index=True)
-    from_ = Column(Integer, ForeignKey("users.id"))
-
-    owner = relationship("User", back_populates="items")
+    from_ = Column(Integer, ForeignKey("user.id"), name="from_")
+    to = Column(Integer, ForeignKey("user.id"), name="to_")

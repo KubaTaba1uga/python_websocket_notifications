@@ -28,13 +28,10 @@ venv:
 	python3 -m virtualenv $(venv_name)
 
 install: 
-	pip install .
-
-install-dev: 
-	pip install .[dev]
+	pip install -r requirements.txt
 
 install-test: 
-	pip install .[test]
+	pip install -r test-requirements.txt
 
 clean: 
 	rm -rf $(venv_name)
