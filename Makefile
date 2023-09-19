@@ -21,8 +21,8 @@ format:
 	python -m black $(sources)
 	python -m isort $(sources)
 
-test:
-	python -m pytest -vv
+unit-test:
+	export $(cat .test.env | xargs) && python -m pytest test/* -vv
 
 venv:
 	python3 -m virtualenv $(venv_name)
