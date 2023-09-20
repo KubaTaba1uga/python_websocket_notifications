@@ -1,12 +1,12 @@
+import requests
 from fastapi.testclient import TestClient
 
-from message_store.src.web_app import app
-
-client = TestClient(app)
+APP_URL = "http://127.0.0.1"
+MESSAGE_STORE__URL = APP_URL + ":80"
 
 
 def test_get_users(db_users):
-    response = client.get("/users")
+    response = requests.get(MESSAGE_STORE__URL + "/users")
     assert response.status_code == 200
 
     json = response.json()
@@ -21,7 +21,7 @@ def test_get_users(db_users):
 
 def test_get_user(db_users):
     for i in range(1, 5):
-        response = client.get(f"/users/{i}")
+        response = requests.get(MESSAGE_STORE__URL + f"/users/{i}")
         assert response.status_code == 200
 
         json = response.json()

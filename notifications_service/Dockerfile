@@ -6,7 +6,7 @@ RUN apt-get install -y libpq-dev python-dev python3-dev gcc
 
 WORKDIR /code
 
-COPY requirements.txt /code/
+COPY notifications_service/requirements.txt /code/
 
 RUN pip install -r requirements.txt
 
