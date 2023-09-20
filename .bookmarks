@@ -1,0 +1,20 @@
+;;;; Emacs Bookmark Format Version 1;;;; -*- coding: utf-8-emacs; mode: lisp-data -*-
+;;; This format is meant to be slightly human-readable;
+;;; nevertheless, you probably don't want to edit it.
+;;; -*- End Of Bookmark File Format Version Stamp -*-
+(("docker-compose.yaml"
+ (filename . "~/Github/python_websocket_notifications/docker-compose.yaml")
+ (front-context-string . "version: '3'\n\nse")
+ (rear-context-string)
+ (position . 1))
+("README.md"
+ (filename . "~/Github/python_websocket_notifications/README.md")
+ (front-context-string . "# Python Websock")
+ (rear-context-string)
+ (position . 1))
+("Makefile"
+ (filename . "~/Github/python_websocket_notifications/Makefile")
+ (front-context-string . "venv_name := .ve")
+ (rear-context-string)
+ (position . 1))
+)
