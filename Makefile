@@ -21,20 +21,21 @@ format:
 	python -m black $(sources)
 	python -m isort $(sources)
 
-test:
-	python -m pytest -vv
+unit-test:
+	export `cat .test.env | xargs` && python -m pytest notifications_service/test/ message_store/test/ -vv
+
+integration-test:
+	export `cat .test.env | xargs` && python -m pytest test/ -vv
+
 
 venv:
 	python3 -m virtualenv $(venv_name)
 
 install: 
-	pip install .
-
-install-dev: 
-	pip install .[dev]
+	pip install -r notifications_service/requirements.txt
 
 install-test: 
-	pip install .[test]
+	pip install -r test-requirements.txt
 
 clean: 
 	rm -rf $(venv_name)

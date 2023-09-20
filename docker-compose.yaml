@@ -1,14 +1,33 @@
 version: '3'
 
 services:
+  notifications_service:
+    build:
+      dockerfile: notifications_service/Dockerfile
+      context: ./
+
+    ports:
+      - 8080:80
+
+    env_file:
+      - .env
+
+    depends_on:
+      - database
+
   message_store:
-    build: ./message_store
+    build: 
+      dockerfile: message_store/Dockerfile
+      context: ./
 
     ports:
       - 80:80
 
     env_file:
       - .env      
+
+    depends_on:
+      - database      
       
   database:
     # Official Postgres image from DockerHub (last version)
