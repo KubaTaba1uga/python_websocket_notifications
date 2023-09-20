@@ -2,7 +2,22 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("create_channel.sql"
+(("test_db_models.py"
+ (filename . "~/Github/python_websocket_notifications/notifications_service/test/test_db_models.py")
+ (front-context-string . "   .first()\n    ")
+ (rear-context-string . "ata[\"id\"])\n     ")
+ (position . 773))
+("web_app.py"
+ (filename . "~/Github/python_websocket_notifications/message_store/src/web_app.py")
+ (front-context-string . "from shared.data")
+ (rear-context-string . "e import engine\n")
+ (position . 193))
+("web_app.py.notifications_service"
+ (filename . "~/Github/python_websocket_notifications/notifications_service/src/web_app.py")
+ (front-context-string . "from fastapi imp")
+ (rear-context-string)
+ (position . 1))
+("create_channel.sql"
  (filename . "~/Github/python_websocket_notifications/db/migrations/create_channel.sql")
  (front-context-string)
  (rear-context-string)
@@ -14,9 +29,9 @@
  (position . 1))
 ("db_models.py"
  (filename . "~/Github/python_websocket_notifications/shared/db_models.py")
- (front-context-string . "User).offset(ski")
- (rear-context-string . "return db.query(")
- (position . 812))
+ (front-context-string . "\n\ndef get_user(d")
+ (rear-context-string . "=\"resourceURL\")\n")
+ (position . 1231))
 ("database.py"
  (filename . "~/Github/python_websocket_notifications/shared/database.py")
  (front-context-string . "\n# Dependency\nde")

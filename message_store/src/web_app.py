@@ -4,9 +4,8 @@ from fastapi import HTTPException
 from sqlalchemy.orm import Session
 
 from shared import db_models
+from shared import schemas
 from shared.database import get_db
-
-from . import schemas
 
 app = FastAPI()
 
