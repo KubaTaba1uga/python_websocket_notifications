@@ -24,6 +24,10 @@ format:
 unit-test:
 	export `cat .test.env | xargs` && python -m pytest notifications_service/test/ message_store/test/ -vv
 
+integration-test:
+	export `cat .test.env | xargs` && python -m pytest test/ -vv
+
+
 venv:
 	python3 -m virtualenv $(venv_name)
 

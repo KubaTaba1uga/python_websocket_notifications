@@ -2,6 +2,7 @@ from sqlalchemy import Column
 from sqlalchemy import ForeignKey
 from sqlalchemy import Integer
 from sqlalchemy import String
+from sqlalchemy.orm import Session
 
 from .database import Base
 
@@ -20,3 +21,11 @@ class Message(Base):
     content = Column(String, index=True)
     from_ = Column(Integer, ForeignKey("user.id"), name="from_", key="from")
     to = Column(Integer, ForeignKey("user.id"), name="to_")
+
+
+def get_user(db: Session, user_id: int):
+    return db.query(User).filter(User.id == user_id).first()
+
+
+def get_users(db: Session, skip: int = 0, limit: int = 100):
+    return db.query(User).offset(skip).limit(limit).all()

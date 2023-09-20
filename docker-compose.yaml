@@ -2,7 +2,9 @@ version: '3'
 
 services:
   notifications_service:
-    build: .
+    build:
+      dockerfile: notifications_service/Dockerfile
+      context: ./
 
     ports:
       - 8080:80
@@ -14,7 +16,9 @@ services:
       - database
 
   message_store:
-    build: ./message_store
+    build: 
+      dockerfile: message_store/Dockerfile
+      context: ./
 
     ports:
       - 80:80
