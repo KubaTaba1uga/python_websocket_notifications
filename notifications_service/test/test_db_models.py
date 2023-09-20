@@ -1,6 +1,7 @@
 from copy import copy
 
 from shared.db_models import create_notification_channel
+from shared.db_models import get_notification_channel
 from shared.db_models import NotificationChannel
 
 
@@ -31,3 +32,11 @@ def test_create_notification_channel_success(db):
 
     for expected_key, expected_value in expected_data.items():
         assert expected_value == getattr(received, expected_key)
+
+
+def test_get_notification_channel(db, notification_channel):
+    received = get_notification_channel(
+        db, notification_channel.user, notification_channel.id
+    )
+
+    assert notification_channel == received

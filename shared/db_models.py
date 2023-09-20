@@ -47,7 +47,9 @@ def get_users(db: Session, skip: int = 0, limit: int = 100) -> list:
     return db.query(User).offset(skip).limit(limit).all()
 
 
-def get_channel(db: Session, user_id: int, channel_id: int) -> NotificationChannel:
+def get_notification_channel(
+    db: Session, user_id: int, channel_id: int
+) -> NotificationChannel:
     return (
         db.query(NotificationChannel)
         .filter(
