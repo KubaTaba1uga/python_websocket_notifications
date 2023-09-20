@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-  notification_service:
+  notifications_service:
     build: .
 
     ports:

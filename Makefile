@@ -22,13 +22,13 @@ format:
 	python -m isort $(sources)
 
 unit-test:
-	export `cat .test.env | xargs` && python -m pytest test/* -vv
+	export `cat .test.env | xargs` && python -m pytest notifications_service/test/ message_store/test/ -vv
 
 venv:
 	python3 -m virtualenv $(venv_name)
 
 install: 
-	pip install -r requirements.txt
+	pip install -r notifications_service/requirements.txt
 
 install-test: 
 	pip install -r test-requirements.txt
