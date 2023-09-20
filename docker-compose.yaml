@@ -52,4 +52,5 @@ services:
       # You don't need to create the `.data` folder. Docker Compose will do it for you
       - ./db/.data/:/var/lib/postgresql/data/
       # Initialize messages & users
-      - ./db/migrations/initialize_db.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./db/migrations/initialize_db.sql:/docker-entrypoint-initdb.d/1-init.sql
+      - ./db/migrations/create_notification_channel.sql:/docker-entrypoint-initdb.d/2-create_notification_channel.sql

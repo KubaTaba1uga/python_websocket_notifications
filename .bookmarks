@@ -2,7 +2,27 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("message_store.Dockerfile"
+(("create_channel.sql"
+ (filename . "~/Github/python_websocket_notifications/db/migrations/create_channel.sql")
+ (front-context-string)
+ (rear-context-string)
+ (position . 1))
+("initialize_db.sql"
+ (filename . "~/Github/python_websocket_notifications/db/migrations/initialize_db.sql")
+ (front-context-string . "CREATE TABLE app")
+ (rear-context-string)
+ (position . 1))
+("db_models.py"
+ (filename . "~/Github/python_websocket_notifications/shared/db_models.py")
+ (front-context-string . "User).offset(ski")
+ (rear-context-string . "return db.query(")
+ (position . 812))
+("database.py"
+ (filename . "~/Github/python_websocket_notifications/shared/database.py")
+ (front-context-string . "\n# Dependency\nde")
+ (rear-context-string . "arative_base()\n\n")
+ (position . 547))
+("message_store.Dockerfile"
  (filename . "~/Github/python_websocket_notifications/message_store/Dockerfile")
  (front-context-string . "RUN apt-get upda")
  (rear-context-string . "pg requirements\n")
