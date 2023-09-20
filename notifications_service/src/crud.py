@@ -13,13 +13,6 @@ from shared.schemas import NotificationChannelUserSchema
 def create_notification_channel(
     user_id: int, notification_channel: NotificationChannelUserSchema, db: Session
 ) -> NotificationChannelUserSchema:
-    new_nc = db_models.create_notification_channel(
-        db,
-        user_id,
-        notification_channel.channelType,
-        notification_channel.channelLifeTime,
-        notification_channel.clientCorrelator,
-        notification_channel.applicationTag,
-    )
+    new_nc = db_models.create_notification_channel(db, user_id, notification_channel)
 
     return new_nc
