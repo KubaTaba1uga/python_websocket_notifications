@@ -62,6 +62,10 @@ WEBSOCKET - [websockets](https://websockets.readthedocs.io/en/stable/index.html)
 TESTS - [pytest](https://docs.pytest.org/en/7.4.x/) <br> 
 
 
+## Change creteriums
+![image](https://github.com/KubaTaba1uga/python_websocket_notifications/assets/73971628/b0986fac-7791-4315-b02e-7efcb2eed29c)
+
+
 ## Quick Summary
 ![image](https://github.com/KubaTaba1uga/python_websocket_notifications/assets/73971628/3e31b2e5-fe51-475e-a61c-77f62d800de7)
 
