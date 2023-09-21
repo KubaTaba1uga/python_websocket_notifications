@@ -41,7 +41,8 @@ class NotificationChannel(Base):
     user_id = Column(Integer, ForeignKey("app_user.id"))
 
     # @property
-    # def
+    # def callback_url(self) -> str:
+    #     pass
 
 
 def get_user(db: Session, user_id: int) -> User:
@@ -74,8 +75,12 @@ def create_notification_channel(
         client_correlator=nc.client_correlator,
         application_tag=nc.application_tag,
     )
-    db.add(db_notification_channel)
-    db.commit()
-    db.refresh(db_notification_channel)
+    return save_obj(db, db_notification_channel)
 
-    return db_notification_channel
+
+def save_obj(db: Session, obj: Base):
+    db.add(obj)
+    db.commit()
+    db.refresh(obj)
+
+    return obj
