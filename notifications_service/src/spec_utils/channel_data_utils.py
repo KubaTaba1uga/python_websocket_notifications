@@ -12,10 +12,15 @@ class ChannelData(ABC):
 
     @classmethod
     @abstractmethod
-    def create_data(cls, domain: str, nc: NotificationChannel, user_data: dict) -> dict:
+    def create_data(
+        cls, nc: NotificationChannel, user_data: dict, extra_args: dict
+    ) -> dict:
         """Data that user's sends, need to be completed by the server,
         before they can be returned. For example in WebSocket channel
         type, channelURL need to be created.
+
+        Extra args are used casue i couldn't find parameters
+         which would satisfy all ChannelDataTypes requirements.
         """
         pass
 
@@ -28,10 +33,13 @@ class WebsocketChannelData(ChannelData):
         return "WebSockets".lower() == channel_type.lower()
 
     @classmethod
-    def create_data(cls, domain: str, nc: NotificationChannel, user_data: dict) -> dict:
-        # TO-DO add full url, not only path part. Ex: http://127.0.0.1/api/v1/1/channels/5/ws
+    def create_data(
+        cls, nc: NotificationChannel, user_data: dict, extra_args: dict
+    ) -> dict:
         return {
-            "channelURL": "ws://" + domain + cls.format_channel_url_path(nc),
+            "channelURL": "ws://"
+            + extra_args["domain"]
+            + cls.format_channel_url_path(nc),
             "maxNotifications": user_data.get(
                 "maxNotifications", cls.DEFAULT_MAX_NOTIFICATION
             ),
@@ -42,9 +50,11 @@ class WebsocketChannelData(ChannelData):
         return f"/{nc.user_id}/channels/{nc.id}/ws"
 
 
-def render_channel_data(domain: str, nc: NotificationChannel, user_data: dict) -> dict:
+def render_channel_data(
+    nc: NotificationChannel, user_data: dict, extra_args: dict
+) -> dict:
     for class_ in ChannelData.__subclasses__():
         if class_.is_channel_type(nc.channel_type):
-            return class_.create_data(domain, nc, user_data)
+            return class_.create_data(nc, user_data, extra_args)
 
     raise NotImplementedError()
