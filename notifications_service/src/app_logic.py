@@ -32,3 +32,9 @@ def list_notification_channels(
     db: Session,
 ) -> List[db_models.NotificationChannel]:
     return db_models.list_notification_channels(db, user_id)
+
+
+def get_notification_channel(
+    user_id: int, nc_id: int, db: Session
+) -> db_models.NotificationChannel:
+    return db_models.get_notification_channel(db, user_id, nc_id)

@@ -18,35 +18,29 @@ app_root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, app_root_dir)
 
 
-import contextlib
-
-from sqlalchemy import MetaData
-
-meta = MetaData()
-
-
 @pytest.fixture(autouse=False)
 def db():
+    def delete_table_records(db_local, table):
+        db_local.execute(text(f"TRUNCATE {table}"))
+
+    def reset_table_counter(db_local, table):
+        db_local.execute(text(f"ALTER SEQUENCE {table}_id_seq RESTART WITH 1"))
+
     for db_local in get_db():
         yield db_local
 
         tables_to_teardown = [NotificationChannel.__tablename__]
 
         for table in tables_to_teardown:
-            db_local.execute(text(f"TRUNCATE {table}"))
+            delete_table_records(db_local, table)
+            reset_table_counter(db_local, table)
 
         db_local.commit()
 
 
-def teardown_function(db):
-    """teardown any state that was previously setup with a setup_function
-    call.
-    """
-
-
 @pytest.fixture
 def notification_channel_fabric(db):
-    def _(
+    def local_fabric(
         user_id=5,
         type="WebSockets",
         life_time=3600,
@@ -67,7 +61,7 @@ def notification_channel_fabric(db):
         save_obj(db, db_nc := create_notification_channel(db, user_id, nc))
         return db_nc
 
-    return _
+    return local_fabric
 
 
 @pytest.fixture

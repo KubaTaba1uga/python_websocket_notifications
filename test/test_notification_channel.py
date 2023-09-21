@@ -50,3 +50,26 @@ def test_list_notification_channel(notification_channel_fabric):
         any(exp_c.id == rec_c["id"] for rec_c in received)
         for exp_c in expected_channels
     )
+
+
+def test_get_notification_channel(notification_channel):
+    URL_FORMAT, USER_ID = (
+        NOTIFICATIONS_SERVICE_URL + "/{}/channels/{}",
+        5,
+    )
+
+    expected = {
+        "channelType": "WebSockets",
+        "channelLifeTime": 3600,
+        "clientCorrelator": "123",
+        "applicationTag": "myTag",
+        "channelData": {"maxNotifications": 10},
+        "id": 1,
+    }
+
+    response = requests.get(URL_FORMAT.format(USER_ID, notification_channel.id))
+
+    assert 200 == response.status_code
+    received = response.json()
+
+    assert received == expected
