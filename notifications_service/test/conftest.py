@@ -5,6 +5,7 @@ import pytest
 
 from shared.database import get_db
 from shared.db_models import create_notification_channel
+from shared.schemas import NotificationChannelUserSchema
 
 # Make sure that the application source directory (this directory's parent) is
 # on sys.path.
@@ -20,17 +21,15 @@ def db():
 
 @pytest.fixture
 def notification_channel(db):
-    channel_data = {
-        "user_id": 5,
-        "client_correlator": "123",
-        "application_tag": "myTag",
-        "channel_type": "WebSockets",
-        "channel_data": {
+    nc = NotificationChannelUserSchema(
+        channelType="WebSockets",
+        channelLifeTime=3600,
+        clientCorrelator="123",
+        applicationTag="myTag",
+        channelData={
             "channelURL": "ws://localhost/5/channels/ws",
             "maxNotifications": 10,
         },
-        "channel_life_time": 3600,
-        "callback_url": "http://my_ip/proxy",
-    }
+    )
 
-    return create_notification_channel(db, **channel_data)
+    return create_notification_channel(db, 5, nc)

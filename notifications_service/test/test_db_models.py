@@ -3,6 +3,7 @@ from copy import copy
 from shared.db_models import create_notification_channel
 from shared.db_models import get_notification_channel
 from shared.db_models import NotificationChannel
+from shared.schemas import NotificationChannelUserSchema
 
 
 def test_create_notification_channel_success(db):
@@ -16,13 +17,19 @@ def test_create_notification_channel_success(db):
             "maxNotifications": 10,
         },
         "channel_life_time": 3600,
-        "callback_url": "http://my_ip/proxy",
     }
 
     expected_data = copy(test_data) | {"id": 1}
-    expected_data["user"] = expected_data.pop("user_id")
 
-    create_notification_channel(db, **test_data)
+    nc = NotificationChannelUserSchema(
+        channelType=test_data["channel_type"],
+        channelLifeTime=test_data["channel_life_time"],
+        clientCorrelator=test_data["client_correlator"],
+        applicationTag=test_data["application_tag"],
+        channelData=test_data["channel_data"],
+    )
+
+    create_notification_channel(db, test_data["user_id"], nc)
 
     received = (
         db.query(NotificationChannel)
@@ -36,7 +43,7 @@ def test_create_notification_channel_success(db):
 
 def test_get_notification_channel(db, notification_channel):
     received = get_notification_channel(
-        db, notification_channel.user, notification_channel.id
+        db, notification_channel.user_id, notification_channel.id
     )
 
     assert notification_channel == received
