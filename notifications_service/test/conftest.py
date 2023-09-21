@@ -4,6 +4,7 @@ import sys
 import pytest
 
 from notifications_service.src.db_models import create_notification_channel
+from notifications_service.src.db_models import save_obj
 from notifications_service.src.schemas import NotificationChannelUserSchema
 from shared.database import get_db
 
@@ -39,7 +40,8 @@ def notification_channel_fabric(db):
             channelData=cd,
         )
 
-        return create_notification_channel(db, user_id, nc)
+        save_obj(db, db_nc := create_notification_channel(db, user_id, nc))
+        return db_nc
 
     return _
 
