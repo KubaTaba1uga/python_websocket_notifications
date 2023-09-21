@@ -2,74 +2,39 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("test_db_models.py"
- (filename . "~/Github/python_websocket_notifications/notifications_service/test/test_db_models.py")
- (front-context-string . "   .first()\n    ")
- (rear-context-string . "ata[\"id\"])\n     ")
- (position . 773))
-("web_app.py"
- (filename . "~/Github/python_websocket_notifications/message_store/src/web_app.py")
- (front-context-string . "from shared.data")
- (rear-context-string . "e import engine\n")
- (position . 193))
+(("schemas.py.shared"
+ (filename . "~/Github/python_websocket_notifications/shared/schemas.py")
+ (front-context-string . "from enum import")
+ (rear-context-string)
+ (position . 1))
 ("web_app.py.notifications_service"
  (filename . "~/Github/python_websocket_notifications/notifications_service/src/web_app.py")
  (front-context-string . "from fastapi imp")
  (rear-context-string)
  (position . 1))
-("create_channel.sql"
- (filename . "~/Github/python_websocket_notifications/db/migrations/create_channel.sql")
+("schemas.py.notifications_service"
+ (filename . "~/Github/python_websocket_notifications/notifications_service/src/schemas.py")
+ (front-context-string . "from typing impo")
+ (rear-context-string)
+ (position . 1))
+("db_models.py_notifications_service"
+ (filename . "~/Github/python_websocket_notifications/notifications_service/src/db_models.py")
+ (front-context-string . "class Notificati")
+ (rear-context-string)
+ (position . 1))
+("database.py"
+ (filename . "~/Github/python_websocket_notifications/shared/database.py")
+ (front-context-string . "from sqlalchemy ")
+ (rear-context-string)
+ (position . 1))
+("db_utils.py"
+ (filename . "~/Github/python_websocket_notifications/shared/db_utils.py")
  (front-context-string)
  (rear-context-string)
  (position . 1))
-("initialize_db.sql"
- (filename . "~/Github/python_websocket_notifications/db/migrations/initialize_db.sql")
- (front-context-string . "CREATE TABLE app")
- (rear-context-string)
- (position . 1))
-("db_models.py"
+("db_models.py.shared"
  (filename . "~/Github/python_websocket_notifications/shared/db_models.py")
- (front-context-string . "\n\ndef get_user(d")
- (rear-context-string . "=\"resourceURL\")\n")
- (position . 1231))
-("database.py"
- (filename . "~/Github/python_websocket_notifications/shared/database.py")
- (front-context-string . "\n# Dependency\nde")
- (rear-context-string . "arative_base()\n\n")
- (position . 547))
-("message_store.Dockerfile"
- (filename . "~/Github/python_websocket_notifications/message_store/Dockerfile")
- (front-context-string . "RUN apt-get upda")
- (rear-context-string . "pg requirements\n")
- (position . 59))
-("notifications_sefvice.Dockerfile"
- (filename . "~/Github/python_websocket_notifications/notifications_service/Dockerfile")
- (front-context-string . "FROM python:3.11")
- (rear-context-string)
- (position . 1))
-("test_hello_world_message_store.py"
- (filename . "~/Github/python_websocket_notifications/message_store/test/test_hello_world_message_store.py")
- (front-context-string . "from fastapi.tes")
- (rear-context-string)
- (position . 1))
-("test_hello_world_notification_service.py"
- (filename . "~/Github/python_websocket_notifications/notifications_service/test/test_hello_world_notification_service.py")
- (front-context-string . ".web_app import ")
- (rear-context-string . "tClient\nfrom src")
- (position . 51))
-("docker-compose.yaml"
- (filename . "~/Github/python_websocket_notifications/docker-compose.yaml")
- (front-context-string . "version: '3'\n\nse")
- (rear-context-string)
- (position . 1))
-("README.md"
- (filename . "~/Github/python_websocket_notifications/README.md")
- (front-context-string . "# Python Websock")
- (rear-context-string)
- (position . 1))
-("Makefile"
- (filename . "~/Github/python_websocket_notifications/Makefile")
- (front-context-string . "venv_name := .ve")
+ (front-context-string . "from typing impo")
  (rear-context-string)
  (position . 1))
 )
