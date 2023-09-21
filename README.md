@@ -53,7 +53,7 @@ Bullet points from `Appendix I Notification delivery using WebSockets`:
 Bullet points from 5.1.4 in NMS API (to fullfill).
 1. A box represents the logical store that belongs to designated owner(s).
 2. To subscribe to NMS notifications, create a new resource under http://{serverRoot}/nms/{apiVersion}/{storeName}/{boxId}/subscriptions
-![image](https://github.com/KubaTaba1uga/python_websocket_notifications/assets/73971628/36737ef5-28b8-494e-8b1e-b0c56db82021)
+
 
 ## Stack
 HTTP SERVER - [aiohttp](https://docs.aiohttp.org/en/stable/index.html) <br>
@@ -65,6 +65,8 @@ TESTS - [pytest](https://docs.pytest.org/en/7.4.x/) <br>
 ## Change creteriums
 ![image](https://github.com/KubaTaba1uga/python_websocket_notifications/assets/73971628/b0986fac-7791-4315-b02e-7efcb2eed29c)
 
+## Subscription reference
+![image](https://github.com/KubaTaba1uga/python_websocket_notifications/assets/73971628/36737ef5-28b8-494e-8b1e-b0c56db82021)
 
 ## Quick Summary
 ![image](https://github.com/KubaTaba1uga/python_websocket_notifications/assets/73971628/3e31b2e5-fe51-475e-a61c-77f62d800de7)
