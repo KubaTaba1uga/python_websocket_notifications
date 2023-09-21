@@ -40,6 +40,9 @@ class NotificationChannel(Base):
     channel_life_time = Column(Integer)
     user_id = Column(Integer, ForeignKey("app_user.id"))
 
+    # @property
+    # def
+
 
 def get_user(db: Session, user_id: int) -> User:
     return db.query(User).filter(User.id == user_id).first()

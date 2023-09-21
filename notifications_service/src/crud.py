@@ -13,7 +13,7 @@ from shared.spec_utils.channel_data_utils import render_channel_data
 
 def create_notification_channel(
     user_id: int, notification_channel: NotificationChannelUserSchema, db: Session
-) -> NotificationChannelUserSchema:
+) -> db_models.NotificationChannel:
     new_nc = db_models.create_notification_channel(db, user_id, notification_channel)
 
     new_nc.channel_data = render_channel_data(new_nc, notification_channel.channel_data)

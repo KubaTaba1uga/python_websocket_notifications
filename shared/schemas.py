@@ -27,12 +27,12 @@ class NotificationChannelUserSchema(BaseModel, DbModel):
     application_tag: Optional[str] = Field(
         validation_alias="applicationTag", default=None
     )
-    channel_data: Optional[dict] = Field(validation_alias="channelData", default={})
+    channel_data: dict = Field(validation_alias="channelData", default={})
 
 
 class NotificationChannelServerSchema(NotificationChannelUserSchema):
-    callbackURL: str
-    resourceURL: str
+    # callbackURL: str
+    # resourceURL: str
     user_id: int
     id: int
 
