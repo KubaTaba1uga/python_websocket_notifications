@@ -1,5 +1,6 @@
 from fastapi import Depends
 from fastapi import FastAPI
+from fastapi import HTTPException
 from fastapi import Request
 from fastapi import Response
 from sqlalchemy.orm import Session
@@ -76,6 +77,20 @@ def delete_notification_channel(
     _delete_notification_channel(user_id, notification_channel_id, db)
 
     return Response(status_code=204)
+
+
+@app.get(
+    "/{user_id}/channels/{notification_channel_id}/channelLifetime",
+)
+def get_notification_channel_lifetime(
+    user_id: int,
+    notification_channel_id: int,
+    db: Session = Depends(get_db),
+):
+    nc = _get_notification_channel(user_id, notification_channel_id, db)
+    if None is nc:
+        raise HTTPException(status_code=404, detail="Notification Channel not found")
+    return nc.channel_life_time
 
 
 def get_host_domain(request: Request) -> str:

@@ -84,3 +84,16 @@ def test_delete_notification_channel(notification_channel):
     )
 
     assert 204 == response.status_code
+
+
+def test_get_notification_channel_lifetime(notification_channel):
+    URL_FORMAT = NOTIFICATIONS_SERVICE_URL + "/{}/channels/{}/channelLifetime"
+
+    expected = notification_channel.channel_life_time
+
+    response = requests.get(
+        URL_FORMAT.format(notification_channel.user_id, notification_channel.id)
+    )
+
+    assert 200 == response.status_code
+    assert expected == int(response.content)
