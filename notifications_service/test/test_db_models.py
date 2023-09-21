@@ -14,6 +14,7 @@ def test_create_notification_channel_success(db):
         "application_tag": "myTag",
         "channel_type": "WebSockets",
         "channel_life_time": 3600,
+        "channel_data": {"maxNotifications": 10},
     }
 
     expected_data = copy(test_data)
@@ -23,6 +24,7 @@ def test_create_notification_channel_success(db):
         channelLifeTime=test_data["channel_life_time"],
         clientCorrelator=test_data["client_correlator"],
         applicationTag=test_data["application_tag"],
+        channelData=test_data["channel_data"],
     )
 
     received = create_notification_channel(db, test_data["user_id"], nc)

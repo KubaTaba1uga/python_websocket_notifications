@@ -29,10 +29,9 @@ def list_notification_channels(
     db: Session, user_id: int, skip: int = 0, limit: int = 100
 ) -> List[NotificationChannel]:
     return (
-        db.query(NotificationChannel)  #
-        .filter(NotificationChannel.user_id == user_id)
-        .offset(skip)
-        .limit(limit)
+        db.query(NotificationChannel) and.filter(NotificationChannel.user_id == user_id)
+        # .offset(skip)
+        # .limit(limit)
         .all()
     )
 
@@ -58,5 +57,6 @@ def create_notification_channel(
         channel_life_time=nc.channel_life_time,
         client_correlator=nc.client_correlator,
         application_tag=nc.application_tag,
+        channel_data=nc.channel_data,
     )
     return save_obj(db, db_notification_channel)
