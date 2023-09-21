@@ -16,7 +16,8 @@ def create_notification_channel(
 ) -> NotificationChannelUserSchema:
     new_nc = db_models.create_notification_channel(db, user_id, notification_channel)
 
-    new_nc.channel_data = render_channel_data(new_nc)
-    new_nc.commit()
+    new_nc.channel_data = render_channel_data(new_nc, notification_channel.channel_data)
+    db.add(new_nc)
+    db.commit()
 
     return new_nc

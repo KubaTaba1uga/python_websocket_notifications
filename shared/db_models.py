@@ -66,10 +66,10 @@ def create_notification_channel(
 ) -> NotificationChannel:
     db_notification_channel = NotificationChannel(
         user_id=user_id,
-        channel_type=nc.channelType,
-        channel_life_time=nc.channelLifeTime,
-        client_correlator=nc.clientCorrelator,
-        application_tag=nc.applicationTag,
+        channel_type=nc.channel_type,
+        channel_life_time=nc.channel_life_time,
+        client_correlator=nc.client_correlator,
+        application_tag=nc.application_tag,
     )
     db.add(db_notification_channel)
     db.commit()

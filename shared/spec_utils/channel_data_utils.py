@@ -5,13 +5,13 @@ from shared.db_models import NotificationChannel
 
 
 class ChannelData(ABC):
-    @abstractmethod
     @classmethod
+    @abstractmethod
     def is_channel_type(cls, channel_type: str) -> bool:
         pass
 
-    @abstractmethod
     @classmethod
+    @abstractmethod
     def create_data(cls, nc: NotificationChannel, user_data: dict) -> dict:
         """Data that user's sends, need to be completed by the server,
         before they can be returned. For example in WebSocket channel

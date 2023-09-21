@@ -1,7 +1,10 @@
+from enum import Enum
 from typing import Optional
 
 from pydantic import BaseModel
 from pydantic import Field
+
+DEFAULT_CHANNEL_LIFE_TIME = 86400  # 24h in sec
 
 
 class DbModel:
@@ -9,20 +12,22 @@ class DbModel:
         orm_mode = True
 
 
+class NotificationChannelTypeEnum(str, Enum):
+    websockets = "WebSockets"
+
+
 class NotificationChannelUserSchema(BaseModel, DbModel):
-    channelType: str = Field(serialization_alias="channel_type")
-    channelLifeTime: Optional[int] = Field(
-        serialization_alias="channel_life_time", default=None
+    channel_type: NotificationChannelTypeEnum = Field(validation_alias="channelType")
+    channel_life_time: Optional[int] = Field(
+        validation_alias="channelLifeTime", default=DEFAULT_CHANNEL_LIFE_TIME
     )
-    clientCorrelator: Optional[str] = Field(
-        serialization_alias="client_correlator", default=None
+    client_correlator: Optional[str] = Field(
+        validation_alias="clientCorrelator", default=None
     )
-    applicationTag: Optional[str] = Field(
-        serialization_alias="application_tag", default=None
+    application_tag: Optional[str] = Field(
+        validation_alias="applicationTag", default=None
     )
-    channelData: Optional[dict] = Field(
-        serialization_alias="channel_data", default=None
-    )
+    channel_data: Optional[dict] = Field(validation_alias="channelData", default={})
 
 
 class NotificationChannelServerSchema(NotificationChannelUserSchema):
