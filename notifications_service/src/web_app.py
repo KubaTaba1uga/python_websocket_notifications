@@ -1,11 +1,13 @@
 from fastapi import Depends
 from fastapi import FastAPI
 from fastapi import Request
+from fastapi import Response
 from sqlalchemy.orm import Session
 
 from shared.database import get_db
 
 from .app_logic import create_notification_channel as _create_notification_channel
+from .app_logic import delete_notification_channel as _delete_notification_channel
 from .app_logic import get_notification_channel as _get_notification_channel
 from .app_logic import list_notification_channels as _list_notification_channel
 from .schemas import NotificationChannelServerSchema
@@ -35,6 +37,7 @@ def list_notification_channel(
     "/{user_id}/channels",
     response_model=NotificationChannelServerSchema,
     response_model_by_alias=True,
+    status_code=201,
 )
 def create_notification_channel(
     request: Request,
@@ -60,6 +63,19 @@ def get_notification_channel(
     db: Session = Depends(get_db),
 ):
     return _get_notification_channel(user_id, notification_channel_id, db)
+
+
+@app.delete(
+    "/{user_id}/channels/{notification_channel_id}",
+)
+def delete_notification_channel(
+    user_id: int,
+    notification_channel_id: int,
+    db: Session = Depends(get_db),
+):
+    _delete_notification_channel(user_id, notification_channel_id, db)
+
+    return Response(status_code=204)
 
 
 def get_host_domain(request: Request) -> str:

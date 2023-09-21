@@ -48,6 +48,12 @@ def get_notification_channel(
     )
 
 
+def delete_notification_channel(db: Session, user_id: int, channel_id: int) -> None:
+    db.query(NotificationChannel).filter(
+        NotificationChannel.user_id == user_id, NotificationChannel.id == channel_id
+    ).delete()
+
+
 def create_notification_channel(
     db: Session, user_id: int, nc: NotificationChannelUserSchema
 ) -> NotificationChannel:

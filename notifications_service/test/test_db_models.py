@@ -1,6 +1,7 @@
 from copy import copy
 
 from notifications_service.src.db_models import create_notification_channel
+from notifications_service.src.db_models import delete_notification_channel
 from notifications_service.src.db_models import get_notification_channel
 from notifications_service.src.db_models import list_notification_channels
 from notifications_service.src.db_models import NotificationChannel
@@ -53,3 +54,15 @@ def test_list_notification_channel(db, notification_channel_fabric):
     assert all(
         any(exp_c.id == rec_c.id for rec_c in received) for exp_c in channels_list
     )
+
+
+def test_delete_notification_channel(db, notification_channel):
+    delete_notification_channel(
+        db, notification_channel.user_id, notification_channel.id
+    )
+
+    db_nc = get_notification_channel(
+        db, notification_channel.user_id, notification_channel.id
+    )
+
+    assert None is db_nc

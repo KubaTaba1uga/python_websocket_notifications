@@ -25,7 +25,7 @@ def test_create_notification_channel():
 
     response = requests.post(URL_FORMAT.format(USER_ID), json=test_data)
 
-    assert response.status_code == 200
+    assert response.status_code == 201
     received_data = response.json()
 
     expected_data["id"] = received_data["id"]
@@ -37,11 +37,13 @@ def test_create_notification_channel():
 
 
 def test_list_notification_channel(notification_channel_fabric):
-    URL_FORMAT, USER_ID = NOTIFICATIONS_SERVICE_URL + "/{}/channels", 5
+    URL_FORMAT = NOTIFICATIONS_SERVICE_URL + "/{}/channels"
 
     expected_channels = [notification_channel_fabric() for _ in range(10)]
 
-    response = requests.get(URL_FORMAT.format(USER_ID))
+    user_id = expected_channels[0].user_id
+
+    response = requests.get(URL_FORMAT.format(user_id))
 
     assert 200 == response.status_code
     received = response.json()
@@ -53,10 +55,7 @@ def test_list_notification_channel(notification_channel_fabric):
 
 
 def test_get_notification_channel(notification_channel):
-    URL_FORMAT, USER_ID = (
-        NOTIFICATIONS_SERVICE_URL + "/{}/channels/{}",
-        5,
-    )
+    URL_FORMAT = NOTIFICATIONS_SERVICE_URL + "/{}/channels/{}"
 
     expected = {
         "channelType": "WebSockets",
@@ -67,9 +66,21 @@ def test_get_notification_channel(notification_channel):
         "id": 1,
     }
 
-    response = requests.get(URL_FORMAT.format(USER_ID, notification_channel.id))
+    response = requests.get(
+        URL_FORMAT.format(notification_channel.user_id, notification_channel.id)
+    )
 
     assert 200 == response.status_code
     received = response.json()
 
     assert received == expected
+
+
+def test_delete_notification_channel(notification_channel):
+    URL_FORMAT = NOTIFICATIONS_SERVICE_URL + "/{}/channels/{}"
+
+    response = requests.delete(
+        URL_FORMAT.format(notification_channel.user_id, notification_channel.id)
+    )
+
+    assert 204 == response.status_code

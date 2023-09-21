@@ -18,6 +18,7 @@ def create_notification_channel(
     db: Session,
 ) -> db_models.NotificationChannel:
     new_nc = db_models.create_notification_channel(db, user_id, notification_channel)
+    db_models.save_obj(db, new_nc)
 
     new_nc.channel_data = render_channel_data(
         new_nc, notification_channel.channel_data, {"domain": domain}
@@ -38,3 +39,9 @@ def get_notification_channel(
     user_id: int, nc_id: int, db: Session
 ) -> db_models.NotificationChannel:
     return db_models.get_notification_channel(db, user_id, nc_id)
+
+
+def delete_notification_channel(
+    user_id: int, nc_id: int, db: Session
+) -> db_models.NotificationChannel:
+    return db_models.delete_notification_channel(db, user_id, nc_id)
