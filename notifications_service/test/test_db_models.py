@@ -1,9 +1,9 @@
 from copy import copy
 
-from shared.db_models import create_notification_channel
-from shared.db_models import get_notification_channel
-from shared.db_models import NotificationChannel
-from shared.schemas import NotificationChannelUserSchema
+from notifications_service.src.db_models import create_notification_channel
+from notifications_service.src.db_models import get_notification_channel
+from notifications_service.src.db_models import NotificationChannel
+from notifications_service.src.schemas import NotificationChannelUserSchema
 
 
 def test_create_notification_channel_success(db):

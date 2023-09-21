@@ -1,10 +1,8 @@
 from sqlalchemy.orm import Session
 
-from shared import db_models
-# from shared.database import get_db
-# from shared.schemas import NotificationChannelCreatedSchema
-from shared.schemas import NotificationChannelUserSchema
-from shared.spec_utils.channel_data_utils import render_channel_data
+from . import db_models
+from .schemas import NotificationChannelUserSchema
+from .spec_utils.channel_data_utils import render_channel_data
 
 # from shared.schemas import UserSchema
 

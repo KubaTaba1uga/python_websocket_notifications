@@ -1,7 +1,7 @@
 from abc import ABC
 from abc import abstractmethod
 
-from shared.db_models import NotificationChannel
+from ..db_models import NotificationChannel
 
 
 class ChannelData(ABC):

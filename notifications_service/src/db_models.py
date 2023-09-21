@@ -5,9 +5,9 @@ from sqlalchemy import PickleType
 from sqlalchemy import String
 from sqlalchemy.orm import Session
 
+from shared.database import Base
 from shared.db_models import save_obj
 
-from .database import Base
 from .schemas import NotificationChannelUserSchema
 
 

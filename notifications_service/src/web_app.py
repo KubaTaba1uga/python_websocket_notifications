@@ -4,10 +4,10 @@ from fastapi import Request
 from sqlalchemy.orm import Session
 
 from shared.database import get_db
-from shared.schemas import NotificationChannelServerSchema
-from shared.schemas import NotificationChannelUserSchema
 
-from .crud import create_notification_channel as _create_notification_channel
+from .app_logic import create_notification_channel as _create_notification_channel
+from .schemas import NotificationChannelServerSchema
+from .schemas import NotificationChannelUserSchema
 
 # from shared.schemas import NotificationChannelCreatedSchema
 # from shared.schemas import UserSchema

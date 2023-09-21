@@ -1,24 +1,43 @@
+from enum import Enum
 from typing import Optional
 
 from pydantic import BaseModel
+from pydantic import ConfigDict
 from pydantic import Field
 
-
-class DbModel:
-    class Config:
-        orm_mode = True
+DEFAULT_CHANNEL_LIFE_TIME = 86400  # 24h in sec
 
 
-class NotificationChannelBaseSchema(BaseModel, DbModel):
+def to_camel(string: str) -> str:
+    string_parts = string.split("_")
+    lowercase = string_parts.pop(0)
+    return lowercase + "".join(word.capitalize() for word in string_parts)
+
+
+CAMEL_CONFIG = ConfigDict(
+    orm_mode=True,
+    alias_generator=to_camel,
+    populate_by_name=True,
+)
+
+
+class NotificationChannelTypeEnum(str, Enum):
+    websockets = "WebSockets"
+
+
+class NotificationChannelUserSchema(BaseModel):
+    model_config = CAMEL_CONFIG
+
+    channel_type: NotificationChannelTypeEnum = Field()
+    channel_life_time: Optional[int] = Field(default=DEFAULT_CHANNEL_LIFE_TIME)
+    client_correlator: Optional[str] = Field(default=None)
+    application_tag: Optional[str] = Field(default=None)
+    channel_data: dict = Field(default={})
+
+
+class NotificationChannelServerSchema(NotificationChannelUserSchema):
+    model_config = CAMEL_CONFIG
+
+    # callbackURL: str
+    # resourceURL: str
     id: int
-    user_id: int
-    channelType: str = Field(alias="channel_type")
-    channelLifeTime: Optional[int] = Field(alias="channel_life_time")
-    clientCorrelator: Optional[str] = Field(alias="client_correlator")
-    applicationTag: Optional[str] = Field(alias="application_tag")
-
-
-class NotificationChannelCreatedSchema(NotificationChannelBaseSchema):
-    channelData: dict = Field(alias="channel_data")
-    callbackURL: str = Field(alias="callback_url")
-    resourceURL: str
