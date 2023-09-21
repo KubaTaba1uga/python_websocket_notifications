@@ -6,12 +6,9 @@ from sqlalchemy.orm import Session
 from shared.database import get_db
 
 from .app_logic import create_notification_channel as _create_notification_channel
+from .app_logic import list_notification_channels as _list_notification_channel
 from .schemas import NotificationChannelServerSchema
 from .schemas import NotificationChannelUserSchema
-
-# from shared.schemas import NotificationChannelCreatedSchema
-# from shared.schemas import UserSchema
-
 
 app = FastAPI()
 
@@ -19,6 +16,18 @@ app = FastAPI()
 @app.get("/")
 def read_root():
     return {"Hello": "World"}
+
+
+@app.get(
+    "/{user_id}/channels",
+    response_model=list[NotificationChannelServerSchema],
+    response_model_by_alias=True,
+)
+def list_notification_channel(
+    user_id: int,
+    db: Session = Depends(get_db),
+):
+    return _list_notification_channel(user_id, db)
 
 
 @app.post(

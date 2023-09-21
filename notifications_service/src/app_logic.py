@@ -1,3 +1,5 @@
+from typing import List
+
 from sqlalchemy.orm import Session
 
 from . import db_models
@@ -23,3 +25,10 @@ def create_notification_channel(
     db_models.save_obj(db, new_nc)
 
     return new_nc
+
+
+def list_notification_channels(
+    user_id: int,
+    db: Session,
+) -> List[db_models.NotificationChannel]:
+    return db_models.list_notification_channels(db, user_id)

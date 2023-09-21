@@ -2,7 +2,27 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("schemas.py.shared"
+(("test_db_models.py.notifications_service"
+ (filename . "~/Github/python_websocket_notifications/notifications_service/test/test_db_models.py")
+ (front-context-string . ".schemas import ")
+ (rear-context-string . "ions_service.src")
+ (position . 271))
+("app_logic.py.notifications_service"
+ (filename . "~/Github/python_websocket_notifications/notifications_service/src/app_logic.py")
+ (front-context-string . "\n\ndef create_not")
+ (rear-context-string . "xy_endpoint_url\n")
+ (position . 268))
+("test_channel_data.py"
+ (filename . "~/Github/python_websocket_notifications/notifications_service/test/test_specs_utils/test_channel_data.py")
+ (front-context-string)
+ (rear-context-string . "r_data.get(key)\n")
+ (position . 579))
+("channel_data_utils.py"
+ (filename . "~/Github/python_websocket_notifications/notifications_service/src/spec_utils/channel_data_utils.py")
+ (front-context-string . "from abc import ")
+ (rear-context-string)
+ (position . 1))
+("schemas.py.shared"
  (filename . "~/Github/python_websocket_notifications/shared/schemas.py")
  (front-context-string . "from enum import")
  (rear-context-string)

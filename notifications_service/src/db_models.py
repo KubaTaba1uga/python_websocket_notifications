@@ -1,3 +1,5 @@
+from typing import List
+
 from sqlalchemy import Column
 from sqlalchemy import ForeignKey
 from sqlalchemy import Integer
@@ -21,6 +23,18 @@ class NotificationChannel(Base):
     channel_data = Column(PickleType)
     channel_life_time = Column(Integer)
     user_id = Column(Integer, ForeignKey("app_user.id"))
+
+
+def list_notification_channels(
+    db: Session, user_id: int, skip: int = 0, limit: int = 100
+) -> List[NotificationChannel]:
+    return (
+        db.query(NotificationChannel)  #
+        .filter(NotificationChannel.user_id == user_id)
+        .offset(skip)
+        .limit(limit)
+        .all()
+    )
 
 
 def get_notification_channel(

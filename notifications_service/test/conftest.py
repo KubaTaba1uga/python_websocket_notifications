@@ -20,16 +20,39 @@ def db():
 
 
 @pytest.fixture
-def notification_channel(db):
-    nc = NotificationChannelUserSchema(
-        channelType="WebSockets",
-        channelLifeTime=3600,
-        clientCorrelator="123",
-        applicationTag="myTag",
-        channelData={
-            "channelURL": "ws://localhost/5/channels/ws",
+def notification_channel_fabric(db):
+    def _(
+        user_id=5,
+        type="WebSockets",
+        life_time=3600,
+        cc="123",
+        at="myTag",
+        cd={
+            "maxNotifications": 10,
+        },
+    ):
+        nc = NotificationChannelUserSchema(
+            channelType=type,
+            channelLifeTime=life_time,
+            clientCorrelator=cc,
+            applicationTag=at,
+            channelData=cd,
+        )
+
+        return create_notification_channel(db, user_id, nc)
+
+    return _
+
+
+@pytest.fixture
+def notification_channel(notification_channel_fabric):
+    return notification_channel_fabric(
+        5,
+        "WebSockets",
+        3600,
+        "123",
+        "myTag",
+        {
             "maxNotifications": 10,
         },
     )
-
-    return create_notification_channel(db, 5, nc)
