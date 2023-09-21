@@ -2,8 +2,10 @@ import os
 import sys
 
 import pytest
+from sqlalchemy.sql import text
 
 from notifications_service.src.db_models import create_notification_channel
+from notifications_service.src.db_models import NotificationChannel
 from notifications_service.src.db_models import save_obj
 from notifications_service.src.schemas import NotificationChannelUserSchema
 from shared.database import get_db
@@ -15,9 +17,15 @@ app_root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, app_root_dir)
 
 
-@pytest.fixture
+@pytest.fixture(autouse=False)
 def db():
-    return list(get_db()).pop()
+    tables_to_clean = [NotificationChannel.__tablename__]
+
+    db_ = list(get_db()).pop()
+    yield db_
+
+    for table in tables_to_clean:
+        db_.execute(text(f"TRUNCATE TABLE {table}"))
 
 
 @pytest.fixture

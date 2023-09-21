@@ -29,7 +29,7 @@ def list_notification_channels(
     db: Session, user_id: int, skip: int = 0, limit: int = 100
 ) -> List[NotificationChannel]:
     return (
-        db.query(NotificationChannel) and.filter(NotificationChannel.user_id == user_id)
+        db.query(NotificationChannel).filter(NotificationChannel.user_id == user_id)
         # .offset(skip)
         # .limit(limit)
         .all()
