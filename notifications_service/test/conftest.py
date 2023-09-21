@@ -8,6 +8,7 @@ from notifications_service.src.db_models import create_notification_channel
 from notifications_service.src.db_models import NotificationChannel
 from notifications_service.src.db_models import save_obj
 from notifications_service.src.schemas import NotificationChannelUserSchema
+from shared.database import engine
 from shared.database import get_db
 
 # Make sure that the application source directory (this directory's parent) is
@@ -17,15 +18,30 @@ app_root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 sys.path.insert(0, app_root_dir)
 
 
+import contextlib
+
+from sqlalchemy import MetaData
+
+meta = MetaData()
+
+
 @pytest.fixture(autouse=False)
 def db():
-    tables_to_clean = [NotificationChannel.__tablename__]
+    for db_local in get_db():
+        yield db_local
 
-    db_ = list(get_db()).pop()
-    yield db_
+        tables_to_teardown = [NotificationChannel.__tablename__]
 
-    for table in tables_to_clean:
-        db_.execute(text(f"TRUNCATE TABLE {table}"))
+        for table in tables_to_teardown:
+            db_local.execute(text(f"TRUNCATE {table}"))
+
+        db_local.commit()
+
+
+def teardown_function(db):
+    """teardown any state that was previously setup with a setup_function
+    call.
+    """
 
 
 @pytest.fixture
