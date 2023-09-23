@@ -182,11 +182,8 @@ def test_get_notification_channel_lifetime(notification_channel):
     assert expected == response.json()
 
 
-def test_put_notification_channel_lifetime(notification_channel):
-    URL_FORMAT, LIFETIME_IN_SECS = (
-        "/{}/channels/{}/channelLifetime",
-        100,
-    )
+def test_put_notification_channel_lifetime(db, notification_channel):
+    URL_FORMAT, LIFETIME_IN_SECS, TIMEOUT = ("/{}/channels/{}/channelLifetime", 100, 3)
 
     expected = {"channelLifeTime": LIFETIME_IN_SECS}
 
@@ -197,3 +194,9 @@ def test_put_notification_channel_lifetime(notification_channel):
 
     assert 200 == response.status_code
     assert expected == response.json()
+
+    db.refresh(notification_channel)
+
+    assert notification_channel.channel_life_time in range(
+        expected["channelLifeTime"] - TIMEOUT, expected["channelLifeTime"]
+    )

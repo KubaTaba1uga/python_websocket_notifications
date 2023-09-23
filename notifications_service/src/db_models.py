@@ -21,16 +21,8 @@ from .spec_utils.channel_life_time_utils import \
     convert_expiration_date_to_channel_life_time
 
 
-class NotificationChannel(Base):
-    __tablename__ = "notification_channel"
-
-    id = Column(Integer, primary_key=True, index=True)
-    client_correlator = Column(String, nullable=True)
-    application_tag = Column(String, nullable=True)
-    channel_type = Column(String)
-    channel_data = Column(PickleType)
+class ChannelLifeTime:
     expiry_date_time = Column(DateTime(timezone=False), server_default=func.now())
-    user_id = Column(Integer, ForeignKey("app_user.id"))
 
     @property
     def channel_life_time(self) -> int:
@@ -44,10 +36,21 @@ class NotificationChannel(Base):
 
     def overwrite_channel_life_time(self, life_time: int) -> None:
         # hidden life time attribute is created to allow
-        #  ovvewriding dynamic creation of it's public equivalent.
+        #  ovewriting dynamic creation of it's public equivalent.
         #  this way we can return requested life time,
         #  when in fact few seconds has passed.
         self._life_time = life_time
+
+
+class NotificationChannel(Base, ChannelLifeTime):
+    __tablename__ = "notification_channel"
+
+    id = Column(Integer, primary_key=True, index=True)
+    client_correlator = Column(String, nullable=True)
+    application_tag = Column(String, nullable=True)
+    channel_type = Column(String)
+    channel_data = Column(PickleType)
+    user_id = Column(Integer, ForeignKey("app_user.id"))
 
 
 def list_notification_channels(
