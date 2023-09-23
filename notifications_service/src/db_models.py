@@ -66,14 +66,22 @@ class CallbackURL:
 
 class NotificationChannel(Base, ChannelLifeTime, ResourceURL, CallbackURL):
     __tablename__ = "notification_channel"
-
+    
     id = Column(Integer, primary_key=True, index=True)
     client_correlator = Column(String, nullable=True)
     application_tag = Column(String, nullable=True)
     channel_type = Column(String)
     channel_data = Column(PickleType)
+    expiry_date_time = Column(DateTime(timezone=False), server_default=func.now())
     user_id = Column(Integer, ForeignKey("app_user.id"))
-
+    
+    @property
+    def resource_U_R_L(self) -> str:
+        return "dummy.url.com"
+        
+    @property
+    def channel_life_time(self) -> int:
+        return 0
 
 def list_notification_channels(
     db: Session, user_id: int, skip: int = 0, limit: int = 100

@@ -62,7 +62,7 @@ def create_notification_channel(
 
     nc_db = _create_notification_channel(domain, user_id, notification_channel, db)
     # Thanks to overwriting, response and request have matching life time
-    # Counter starts when db object is created.
+    # In real counter started when db object has been created.
     nc_db.overwrite_channel_life_time(notification_channel.channel_life_time)
 
     return nc_db
