@@ -99,7 +99,7 @@ def test_delete_notification_channel(notification_channel):
     assert 404 == response.status_code
 
 
-def test_get_notification_channels_list_lifetime(notification_channel):
+def test_get_notification_channel_lifetime(notification_channel):
     URL_FORMAT, TIMEOUT = (
         NOTIFICATIONS_SERVICE_URL + "/{}/channels/{}/channelLifetime",
         3,
