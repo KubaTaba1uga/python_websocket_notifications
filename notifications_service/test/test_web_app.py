@@ -123,16 +123,21 @@ def test_list_notification_channel(notification_channel_fabric):
         assert db_channel.application_tag == resp_channel["applicationTag"]
         assert db_channel.channel_data == resp_channel["channelData"]
 
-    URL_FORMAT = "/{}/channels"
+    URL_FORMAT, OBJS_TO_CREATE_NO = "/{}/channels", 10
 
-    expected_channels = [notification_channel_fabric() for _ in range(10)]
+    expected_channels = [
+        notification_channel_fabric() for _ in range(OBJS_TO_CREATE_NO)
+    ]
 
     user_id = expected_channels[0].user_id
 
     response = client.get(URL_FORMAT.format(user_id))
 
     assert 200 == response.status_code
+
     received_channels = response.json()
+
+    assert OBJS_TO_CREATE_NO == len(received_channels)
 
     for e_channel in expected_channels:
         r_match = [

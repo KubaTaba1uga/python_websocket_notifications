@@ -19,22 +19,28 @@ sys.path.insert(0, app_root_dir)
 
 @pytest.fixture(autouse=False)
 def db():
+    for db_local in get_db():
+        db_cleanup(db_local)
+
+        yield db_local
+
+        db_cleanup(db_local)
+
+
+def db_cleanup(db_local):
     def delete_table_records(db_local, table):
         db_local.execute(text(f"TRUNCATE {table}"))
 
     def reset_table_counter(db_local, table):
         db_local.execute(text(f"ALTER SEQUENCE {table}_id_seq RESTART WITH 1"))
 
-    for db_local in get_db():
-        yield db_local
+    tables_to_teardown = [NotificationChannel.__tablename__]
 
-        tables_to_teardown = [NotificationChannel.__tablename__]
+    for table in tables_to_teardown:
+        delete_table_records(db_local, table)
+        reset_table_counter(db_local, table)
 
-        for table in tables_to_teardown:
-            delete_table_records(db_local, table)
-            reset_table_counter(db_local, table)
-
-        db_local.commit()
+    db_local.commit()
 
 
 @pytest.fixture
