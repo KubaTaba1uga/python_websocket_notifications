@@ -1,4 +1,10 @@
-from datetime import datetime
+"""
+Let's assume that corresponding data are always valid:
+   - user_id
+   - notification_channel_id
+Unnecessary complications for POC.
+"""
+from functools import wraps
 
 from fastapi import Depends
 from fastapi import FastAPI
@@ -51,11 +57,12 @@ def create_notification_channel(
     notification_channel: NotificationChannelUserSchema,
     db: Session = Depends(get_db),
 ):
-    # TO-DO validate data
     # TO-DO indexing should be counted per user, not per whole table
     domain = get_host_domain(request)
 
     nc_db = _create_notification_channel(domain, user_id, notification_channel, db)
+    # Thanks to overwriting, response and request have matching life time
+    # Counter starts when db object is created.
     nc_db.overwrite_channel_life_time(notification_channel.channel_life_time)
 
     return nc_db
@@ -101,10 +108,6 @@ def get_notification_channel_lifetime(
     if None is nc:
         raise HTTPException(status_code=404, detail="Notification Channel not found")
 
-    print(100 * "*")
-    print(nc.expiry_date_time)
-    print(nc.channel_life_time)
-    print(100 * "*")
     return NotificationChannelLifeTimeSchema(channel_life_time=nc.channel_life_time)
 
 
@@ -127,7 +130,7 @@ def update_notification_channel_lifetime(
         user_id, notification_channel_id, notification_channel_life_time, db
     )
 
-    return NotificationChannelLifeTimeSchema(channel_life_time=nc.channel_life_time)
+    return notification_channel_life_time
 
 
 def get_host_domain(request: Request) -> str:

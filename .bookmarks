@@ -2,7 +2,17 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("test_notification_channel.py"
+(("test_we_app.py.notifications_channel"
+ (filename . "~/Github/python_websocket_notifications/notifications_service/test/test_web_app.py")
+ (front-context-string . " == response.sta")
+ (rear-context-string . ")\n    assert 404")
+ (position . 410))
+("test_channel_life_time.py"
+ (filename . "~/Github/python_websocket_notifications/notifications_service/test/test_specs_utils/test_channel_life_time.py")
+ (front-context-string . "(expiration_date")
+ (rear-context-string . "hannel_life_time")
+ (position . 1220))
+("test_notification_channel.py"
  (filename . "~/Github/python_websocket_notifications/test/test_notification_channel.py")
  (front-context-string . "\n    URL_FORMAT,")
  (rear-context-string . "ation_channel():")

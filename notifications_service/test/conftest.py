@@ -8,7 +8,6 @@ from notifications_service.src.db_models import create_notification_channel
 from notifications_service.src.db_models import NotificationChannel
 from notifications_service.src.db_models import save_obj
 from notifications_service.src.schemas import NotificationChannelUserSchema
-from shared.database import engine
 from shared.database import get_db
 
 # Make sure that the application source directory (this directory's parent) is

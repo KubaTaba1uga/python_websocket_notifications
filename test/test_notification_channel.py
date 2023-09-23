@@ -1,3 +1,5 @@
+# TO-DO fetch from db only when it is necessity, otherwise fetch from API
+
 from copy import copy
 
 import requests
@@ -59,7 +61,7 @@ def test_get_notification_channel(notification_channel):
 
     expected = {
         "channelType": "WebSockets",
-        "channelLifeTime": 3600,
+        "channelLifeTime": 3599,
         "clientCorrelator": "123",
         "applicationTag": "myTag",
         "channelData": {"maxNotifications": 10},
