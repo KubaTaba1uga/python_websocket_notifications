@@ -41,7 +41,6 @@ class NotificationChannelServerSchema(NotificationChannelUserSchema):
     model_config = CAMEL_CONFIG
 
     id: int
-
     resource_U_R_L: str
     callback_U_R_L: str
 

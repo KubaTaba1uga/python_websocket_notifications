@@ -15,17 +15,22 @@ USER_ID = 5
 
 def test_create_notification_channel():
     test_data = {
+        "channelType": "WebSockets",
+        "channelLifeTime": 3600,
         "clientCorrelator": "123",
         "applicationTag": "myTag",
-        "channelType": "WebSockets",
         "channelData": {
             "channelURL": "ws://127.0.0.1/{}/channels/{}/ws",
             "maxNotifications": 10,
         },
-        "channelLifeTime": 3600,
+        "callbackURL": "http://somedummyurl.com/proxy",
+        "resourceURL": "http://127.0.0.1/5/channels/1",
+        "id": 1,
     }
-
     expected_data = copy(test_data)
+    expected_data["channelData"]["channelURL"] = expected_data["channelData"][
+        "channelURL"
+    ].format(USER_ID, expected_data["id"])
 
     response = create_notification_channel(
         NOTIFICATIONS_SERVICE_URL, USER_ID, test_data
@@ -33,11 +38,6 @@ def test_create_notification_channel():
 
     assert response.status_code == 201
     received_data = response.json()
-
-    expected_data["id"] = received_data["id"]
-    expected_data["channelData"]["channelURL"] = expected_data["channelData"][
-        "channelURL"
-    ].format(USER_ID, expected_data["id"])
 
     assert expected_data == received_data
 
@@ -68,6 +68,8 @@ def test_get_notification_channel(notification_channel):
             "maxNotifications": 10,
             "channelURL": "ws://127.0.0.1/{}/channels/{}/ws",
         },
+        "callbackURL": "http://somedummyurl.com/proxy",
+        "resourceURL": "http://127.0.0.1/5/channels/1",
         "id": notification_channel["id"],
     }
     expected["channelData"]["channelURL"] = expected["channelData"][

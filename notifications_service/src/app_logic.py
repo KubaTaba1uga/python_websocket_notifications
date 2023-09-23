@@ -12,7 +12,10 @@ from .spec_utils.channel_data_utils import render_channel_data
 def add_prefix_to_resource_url(func):
     def wrapped(domain, *args, **kwargs):
         db_nc = func(domain, *args, **kwargs)
-        db_nc.set_resource_url_prefix(f"{SCHEME}{domain}")
+
+        if None is not db_nc:
+            db_nc.set_resource_url_prefix(f"{SCHEME}{domain}")
+
         return db_nc
 
     return wrapped
