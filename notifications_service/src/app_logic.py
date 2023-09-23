@@ -8,10 +8,6 @@ from .schemas import NotificationChannelLifeTimeSchema
 from .schemas import NotificationChannelUserSchema
 from .spec_utils.channel_data_utils import render_channel_data
 
-# from shared.schemas import UserSchema
-
-# from .config import get_proxy_endpoint_url
-
 
 def add_prefix_to_resource_url(func):
     def wrapped(domain, *args, **kwargs):
@@ -64,8 +60,8 @@ def delete_notification_channel(user_id: int, nc_id: int, db: Session) -> None:
 
 def update_notification_channel_life_time(
     user_id: int, nc_id: int, lifetime: NotificationChannelLifeTimeSchema, db: Session
-) -> int:
+) -> None:
     new_nc = db_models.get_notification_channel(db, user_id, nc_id)
     new_nc.channel_life_time = lifetime.channel_life_time
     db_models.save_obj(db, new_nc)
-    return new_nc.channel_life_time
+    return None
