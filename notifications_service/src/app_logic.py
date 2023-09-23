@@ -7,10 +7,6 @@ from .schemas import NotificationChannelLifeTimeSchema
 from .schemas import NotificationChannelUserSchema
 from .spec_utils.channel_data_utils import render_channel_data
 
-# from shared.schemas import UserSchema
-
-# from .config import get_proxy_endpoint_url
-
 
 def create_notification_channel(
     domain: str,
