@@ -22,10 +22,10 @@ format:
 	python -m isort $(sources)
 
 unit-test:
-	export `cat .test.env | xargs` && python -m pytest notifications_service/test/ message_store/test/ -vv
+	export `cat .test.env | xargs` && python -m pytest notifications_service/test/ message_store/test/ -vv $(arguments)
 
 integration-test:
-	export `cat .test.env | xargs` && python -m pytest test/ -vv
+	export `cat .test.env | xargs` && python -m pytest test/ -vv $(arguments)
 
 
 venv:

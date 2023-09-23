@@ -10,11 +10,28 @@ Chat service. Message is composed of Body, From and To. Nothing fancy.
 ##  Solution overview
 Subscriptions are part of MessageStore. However channels(notifications) should be seperated into a service. 
 
+### Channel creation
+1. User makes post to notificationsservice /<usr_id>/channels
+2. Server returns: callbackURL (address where message store should proxy requests), channelURL (websocket url)
+
+### Subscription creation
+1. User makes post to messagestore /subscriptions (with callbackURL)
+2. Server add callbackURL to notifications proxies urls list 
+3. Server returns subscription data
+
+### Proxying reuest
+1. Server eceives any request
+2. If request matches change createrium it is being proxy to notification server
+3. Server processes request further
+4. Server returns response
+
 Message store makes obj dump (if request qualifies for change tracing) and sends it to NotificationService tohetger with user id (box id). <br>
 NotificationService downloads all subscriptions for specific user, if there is a match sends obj_dump to specific channel queue. <br>
 Websocket have two modes: broadcasting live or replaying past. <br>
 If websocket is broadcasting live, channel's queue is popped to recive a message. <br>
 If websocket is replaying from past, search is being performed to recive messages. <br>
+
+
 
 ### Some notes:
 
@@ -36,7 +53,7 @@ Bullet points from `Appendix I Notification delivery using WebSockets`:
 Bullet points from 5.1.4 in NMS API (to fullfill).
 1. A box represents the logical store that belongs to designated owner(s).
 2. To subscribe to NMS notifications, create a new resource under http://{serverRoot}/nms/{apiVersion}/{storeName}/{boxId}/subscriptions
-![image](https://github.com/KubaTaba1uga/python_websocket_notifications/assets/73971628/36737ef5-28b8-494e-8b1e-b0c56db82021)
+
 
 ## Stack
 HTTP SERVER - [aiohttp](https://docs.aiohttp.org/en/stable/index.html) <br>
@@ -44,6 +61,12 @@ SQL - [sqlalchemy](https://www.sqlalchemy.org/) <br>
 WEBSOCKET - [websockets](https://websockets.readthedocs.io/en/stable/index.html) <br>
 TESTS - [pytest](https://docs.pytest.org/en/7.4.x/) <br> 
 
+
+## Change creteriums
+![image](https://github.com/KubaTaba1uga/python_websocket_notifications/assets/73971628/b0986fac-7791-4315-b02e-7efcb2eed29c)
+
+## Subscription reference
+![image](https://github.com/KubaTaba1uga/python_websocket_notifications/assets/73971628/36737ef5-28b8-494e-8b1e-b0c56db82021)
 
 ## Quick Summary
 ![image](https://github.com/KubaTaba1uga/python_websocket_notifications/assets/73971628/3e31b2e5-fe51-475e-a61c-77f62d800de7)

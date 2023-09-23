@@ -10,7 +10,8 @@ CREATE TABLE message (
      content TEXT NOT NULL,
      from_ INT NOT NULL,
      to_ INT NOT NULL,
-     CONSTRAINT fk_from FOREIGN KEY(from_) REFERENCES app_user(id)
+     CONSTRAINT fk_from FOREIGN KEY(from_) REFERENCES app_user(id),
+     CONSTRAINT fk_to FOREIGN KEY(to_) REFERENCES app_user(id)
 );
 
 INSERT INTO app_user (username) VALUES
