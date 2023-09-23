@@ -74,13 +74,16 @@ def create_notification_channel(
     response_model_by_alias=True,
 )
 def get_notification_channel(
+    request: Request,
     user_id: int,
     notification_channel_id: int,
     db: Session = Depends(get_db),
 ):
-    nc = _get_notification_channel(user_id, notification_channel_id, db)
+    domain = get_host_domain(request)
+    nc = _get_notification_channel(domain, user_id, notification_channel_id, db)
     if None is nc:  # this is implemented so integration tests are easier
         raise HTTPException(status_code=404)
+
     return nc
 
 
@@ -103,11 +106,13 @@ def delete_notification_channel(
     response_model_by_alias=True,
 )
 def get_notification_channel_lifetime(
+    request: Request,
     user_id: int,
     notification_channel_id: int,
     db: Session = Depends(get_db),
 ):
-    nc = _get_notification_channel(user_id, notification_channel_id, db)
+    domain = get_host_domain(request)
+    nc = _get_notification_channel(domain, user_id, notification_channel_id, db)
 
     return NotificationChannelLifeTimeSchema(channel_life_time=nc.channel_life_time)
 

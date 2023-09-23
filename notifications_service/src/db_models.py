@@ -14,6 +14,7 @@ from sqlalchemy.sql import func
 from shared.database import Base
 from shared.db_models import save_obj
 
+from .config import get_proxy_endpoint_url
 from .schemas import NotificationChannelUserSchema
 from .spec_utils.channel_life_time_utils import \
     convert_channel_life_time_to_expiration_date
@@ -42,7 +43,28 @@ class ChannelLifeTime:
         self._life_time = life_time
 
 
-class NotificationChannel(Base, ChannelLifeTime):
+class ResourceURL:
+    id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("app_user.id"))
+
+    def format_resource_url(self) -> str:
+        return f"/{self.user_id}/channels/{self.id}"
+
+    @property
+    def resource_U_R_L(self) -> str:
+        return getattr(self, "_resource_url_prefix", "") + self.format_resource_url()
+
+    def set_resource_url_prefix(self, prefix: str) -> None:
+        self._resource_url_prefix = prefix
+
+
+class CallbackURL:
+    @property
+    def callback_U_R_L(self) -> str:
+        return get_proxy_endpoint_url()
+
+
+class NotificationChannel(Base, ChannelLifeTime, ResourceURL, CallbackURL):
     __tablename__ = "notification_channel"
 
     id = Column(Integer, primary_key=True, index=True)

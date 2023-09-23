@@ -40,9 +40,10 @@ class NotificationChannelUserSchema(BaseModel):
 class NotificationChannelServerSchema(NotificationChannelUserSchema):
     model_config = CAMEL_CONFIG
 
-    # callbackURL: str
-    # resourceURL: str
     id: int
+
+    resource_U_R_L: str
+    callback_U_R_L: str
 
 
 class NotificationChannelLifeTimeSchema(BaseModel):

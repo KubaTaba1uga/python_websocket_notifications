@@ -3,6 +3,7 @@ from typing import List
 from sqlalchemy.orm import Session
 
 from . import db_models
+from .config import SCHEME
 from .schemas import NotificationChannelLifeTimeSchema
 from .schemas import NotificationChannelUserSchema
 from .spec_utils.channel_data_utils import render_channel_data
@@ -12,6 +13,16 @@ from .spec_utils.channel_data_utils import render_channel_data
 # from .config import get_proxy_endpoint_url
 
 
+def add_prefix_to_resource_url(func):
+    def wrapped(domain, *args, **kwargs):
+        db_nc = func(domain, *args, **kwargs)
+        db_nc.set_resource_url_prefix(f"{SCHEME}{domain}")
+        return db_nc
+
+    return wrapped
+
+
+@add_prefix_to_resource_url
 def create_notification_channel(
     domain: str,
     user_id: int,
@@ -26,6 +37,8 @@ def create_notification_channel(
     )
     db_models.save_obj(db, new_nc)
 
+    new_nc
+
     return new_nc
 
 
@@ -36,8 +49,9 @@ def list_notification_channels(
     return db_models.list_notification_channels(db, user_id)
 
 
+@add_prefix_to_resource_url
 def get_notification_channel(
-    user_id: int, nc_id: int, db: Session
+    domain: str, user_id: int, nc_id: int, db: Session
 ) -> db_models.NotificationChannel:
     return db_models.get_notification_channel(db, user_id, nc_id)
 
