@@ -82,7 +82,7 @@ def get_notification_channel(
     domain = get_host_domain(request)
     nc = _get_notification_channel(domain, user_id, notification_channel_id, db)
     if None is nc:  # this is implemented so integration tests are easier, all data passed
-       # to application logic, need to be validated first
+       # to application logic, has to be validated first on prod
         raise HTTPException(status_code=404)
 
     return nc
