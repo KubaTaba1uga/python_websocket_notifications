@@ -1,16 +1,24 @@
+from datetime import datetime
 from typing import List
+from typing import Optional
 
 from sqlalchemy import Column
+from sqlalchemy import DateTime
 from sqlalchemy import ForeignKey
 from sqlalchemy import Integer
 from sqlalchemy import PickleType
 from sqlalchemy import String
 from sqlalchemy.orm import Session
+from sqlalchemy.sql import func
 
 from shared.database import Base
 from shared.db_models import save_obj
 
 from .schemas import NotificationChannelUserSchema
+from .spec_utils.channel_life_time_utils import \
+    convert_channel_life_time_to_expiration_date
+from .spec_utils.channel_life_time_utils import \
+    convert_expiration_date_to_channel_life_time
 
 
 class NotificationChannel(Base):
@@ -21,8 +29,25 @@ class NotificationChannel(Base):
     application_tag = Column(String, nullable=True)
     channel_type = Column(String)
     channel_data = Column(PickleType)
-    channel_life_time = Column(Integer)
+    expiry_date_time = Column(DateTime(timezone=False), server_default=func.now())
     user_id = Column(Integer, ForeignKey("app_user.id"))
+
+    @property
+    def channel_life_time(self) -> int:
+        if None is (life_time := getattr(self, "_life_time", None)):
+            return convert_expiration_date_to_channel_life_time(self.expiry_date_time)
+        return life_time
+
+    @channel_life_time.setter
+    def channel_life_time(self, life_time: int) -> None:
+        self.expiry_date_time = convert_channel_life_time_to_expiration_date(life_time)
+
+    def overwrite_channel_life_time(self, life_time: int) -> None:
+        # hidden life time attribute is created to allow
+        #  ovvewriding dynamic creation of it's public equivalent.
+        #  this way we can return requested life time,
+        #  when in fact few seconds has passed.
+        self._life_time = life_time
 
 
 def list_notification_channels(
@@ -55,14 +80,19 @@ def delete_notification_channel(db: Session, user_id: int, channel_id: int) -> N
 
 
 def create_notification_channel(
-    db: Session, user_id: int, nc: NotificationChannelUserSchema
+    db: Session,
+    user_id: int,
+    nc: NotificationChannelUserSchema,
 ) -> NotificationChannel:
     db_notification_channel = NotificationChannel(
         user_id=user_id,
         channel_type=nc.channel_type,
-        channel_life_time=nc.channel_life_time,
         client_correlator=nc.client_correlator,
         application_tag=nc.application_tag,
         channel_data=nc.channel_data,
+        expiry_date_time=convert_channel_life_time_to_expiration_date(
+            nc.channel_life_time
+        ),
     )
+
     return save_obj(db, db_notification_channel)

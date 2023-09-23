@@ -19,6 +19,8 @@ def test_create_notification_channel_success(db):
     }
 
     expected_data = copy(test_data)
+    # counting starts when obj is created
+    expected_data["channel_life_time"] = 3599
 
     nc = NotificationChannelUserSchema(
         channelType=test_data["channel_type"],

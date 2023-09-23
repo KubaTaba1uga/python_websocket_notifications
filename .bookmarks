@@ -2,7 +2,12 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("test_db_models.py.notifications_service"
+(("test_notification_channel.py"
+ (filename . "~/Github/python_websocket_notifications/test/test_notification_channel.py")
+ (front-context-string . "\n    URL_FORMAT,")
+ (rear-context-string . "ation_channel():")
+ (position . 199))
+("test_db_models.py.notifications_service"
  (filename . "~/Github/python_websocket_notifications/notifications_service/test/test_db_models.py")
  (front-context-string . ".schemas import ")
  (rear-context-string . "ions_service.src")

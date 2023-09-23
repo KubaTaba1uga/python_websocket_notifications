@@ -4,7 +4,7 @@ CREATE TABLE notification_channel (
  application_tag TEXT,
  channel_type TEXT,
  channel_data BYTEA,
- channel_life_time INT,
+ expiry_date_time  TIMESTAMP WITHOUT TIME ZONE,
  callback_url TEXT,
  user_id INT,
  CONSTRAINT fk_userId FOREIGN KEY(user_id) REFERENCES app_user(id) 

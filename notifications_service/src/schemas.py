@@ -20,6 +20,8 @@ CAMEL_CONFIG = ConfigDict(
     populate_by_name=True,
 )
 
+# TO-DO improve fields' annotations
+
 
 class NotificationChannelTypeEnum(str, Enum):
     websockets = "WebSockets"
@@ -29,7 +31,7 @@ class NotificationChannelUserSchema(BaseModel):
     model_config = CAMEL_CONFIG
 
     channel_type: NotificationChannelTypeEnum = Field()
-    channel_life_time: Optional[int] = Field(default=DEFAULT_CHANNEL_LIFE_TIME)
+    channel_life_time: int = Field(default=DEFAULT_CHANNEL_LIFE_TIME)
     client_correlator: Optional[str] = Field(default=None)
     application_tag: Optional[str] = Field(default=None)
     channel_data: dict = Field(default={})
@@ -41,3 +43,8 @@ class NotificationChannelServerSchema(NotificationChannelUserSchema):
     # callbackURL: str
     # resourceURL: str
     id: int
+
+
+class NotificationChannelLifeTimeSchema(BaseModel):
+    model_config = CAMEL_CONFIG
+    channel_life_time: int = Field(default=DEFAULT_CHANNEL_LIFE_TIME)

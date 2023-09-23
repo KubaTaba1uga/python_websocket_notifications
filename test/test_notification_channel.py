@@ -89,11 +89,28 @@ def test_delete_notification_channel(notification_channel):
 def test_get_notification_channel_lifetime(notification_channel):
     URL_FORMAT = NOTIFICATIONS_SERVICE_URL + "/{}/channels/{}/channelLifetime"
 
-    expected = notification_channel.channel_life_time
+    expected = {"channelLifeTime": notification_channel.channel_life_time}
 
     response = requests.get(
         URL_FORMAT.format(notification_channel.user_id, notification_channel.id)
     )
 
     assert 200 == response.status_code
-    assert expected == int(response.content)
+    assert expected == response.json()
+
+
+def test_put_notification_channel_lifetime(notification_channel):
+    URL_FORMAT, LIFETIME_IN_SECS = (
+        NOTIFICATIONS_SERVICE_URL + "/{}/channels/{}/channelLifetime",
+        100,
+    )
+
+    expected = {"channelLifeTime": LIFETIME_IN_SECS}
+
+    response = requests.put(
+        URL_FORMAT.format(notification_channel.user_id, notification_channel.id),
+        json=expected,
+    )
+
+    assert 200 == response.status_code
+    assert expected == response.json()

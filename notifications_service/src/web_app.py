@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from fastapi import Depends
 from fastapi import FastAPI
 from fastapi import HTTPException
@@ -11,6 +13,9 @@ from .app_logic import create_notification_channel as _create_notification_chann
 from .app_logic import delete_notification_channel as _delete_notification_channel
 from .app_logic import get_notification_channel as _get_notification_channel
 from .app_logic import list_notification_channels as _list_notification_channel
+from .app_logic import \
+    update_notification_channel_life_time as _update_notification_channel_life_time
+from .schemas import NotificationChannelLifeTimeSchema
 from .schemas import NotificationChannelServerSchema
 from .schemas import NotificationChannelUserSchema
 
@@ -50,7 +55,10 @@ def create_notification_channel(
     # TO-DO indexing should be counted per user, not per whole table
     domain = get_host_domain(request)
 
-    return _create_notification_channel(domain, user_id, notification_channel, db)
+    nc_db = _create_notification_channel(domain, user_id, notification_channel, db)
+    nc_db.overwrite_channel_life_time(notification_channel.channel_life_time)
+
+    return nc_db
 
 
 @app.get(
@@ -81,6 +89,8 @@ def delete_notification_channel(
 
 @app.get(
     "/{user_id}/channels/{notification_channel_id}/channelLifetime",
+    response_model=NotificationChannelLifeTimeSchema,
+    response_model_by_alias=True,
 )
 def get_notification_channel_lifetime(
     user_id: int,
@@ -90,7 +100,29 @@ def get_notification_channel_lifetime(
     nc = _get_notification_channel(user_id, notification_channel_id, db)
     if None is nc:
         raise HTTPException(status_code=404, detail="Notification Channel not found")
-    return nc.channel_life_time
+    return NotificationChannelLifeTimeSchema(channel_life_time=nc.channel_life_time)
+
+
+@app.put(
+    "/{user_id}/channels/{notification_channel_id}/channelLifetime",
+    response_model=NotificationChannelLifeTimeSchema,
+    response_model_by_alias=True,
+)
+def update_notification_channel_lifetime(
+    user_id: int,
+    notification_channel_id: int,
+    notification_channel_life_time: NotificationChannelLifeTimeSchema,
+    db: Session = Depends(get_db),
+):
+    nc = _get_notification_channel(user_id, notification_channel_id, db)
+    if None is nc:
+        raise HTTPException(status_code=404, detail="Notification Channel not found")
+
+    _update_notification_channel_life_time(
+        user_id, notification_channel_id, notification_channel_life_time, db
+    )
+
+    return NotificationChannelLifeTimeSchema(channel_life_time=nc.channel_life_time)
 
 
 def get_host_domain(request: Request) -> str:

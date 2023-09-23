@@ -4,7 +4,7 @@ CREATE TABLE notification_channel (
  applicationTag TEXT,
  channelType TEXT,
  channelData JSON,
- channelLifeTime INT,
+ expiryDateTime TIMESTAMP WITHOUT TIME ZONE,
  callbackURL TEXT,
  resourceURL TEXT,
 )

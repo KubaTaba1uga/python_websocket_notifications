@@ -3,6 +3,7 @@ from typing import List
 from sqlalchemy.orm import Session
 
 from . import db_models
+from .schemas import NotificationChannelLifeTimeSchema
 from .schemas import NotificationChannelUserSchema
 from .spec_utils.channel_data_utils import render_channel_data
 
@@ -45,3 +46,9 @@ def delete_notification_channel(
     user_id: int, nc_id: int, db: Session
 ) -> db_models.NotificationChannel:
     return db_models.delete_notification_channel(db, user_id, nc_id)
+
+
+def update_notification_channel_life_time(
+    user_id: int, nc_id: int, lifetime: NotificationChannelLifeTimeSchema, db: Session
+):
+    pass
