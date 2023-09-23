@@ -33,8 +33,6 @@ def create_notification_channel(
     )
     db_models.save_obj(db, new_nc)
 
-    new_nc
-
     return new_nc
 
 
