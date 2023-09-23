@@ -51,4 +51,4 @@ def delete_notification_channel(
 def update_notification_channel_life_time(
     user_id: int, nc_id: int, lifetime: NotificationChannelLifeTimeSchema, db: Session
 ):
-    pass
+    return db_models.get_notification_channel(db, user_id, nc_id)

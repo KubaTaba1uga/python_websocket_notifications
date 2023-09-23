@@ -100,6 +100,11 @@ def get_notification_channel_lifetime(
     nc = _get_notification_channel(user_id, notification_channel_id, db)
     if None is nc:
         raise HTTPException(status_code=404, detail="Notification Channel not found")
+
+    print(100 * "*")
+    print(nc.expiry_date_time)
+    print(nc.channel_life_time)
+    print(100 * "*")
     return NotificationChannelLifeTimeSchema(channel_life_time=nc.channel_life_time)
 
 

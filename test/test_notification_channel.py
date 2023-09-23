@@ -91,6 +91,9 @@ def test_get_notification_channel_lifetime(notification_channel):
 
     expected = {"channelLifeTime": notification_channel.channel_life_time}
 
+    print(expected)
+    print(notification_channel.expiry_date_time)
+
     response = requests.get(
         URL_FORMAT.format(notification_channel.user_id, notification_channel.id)
     )
