@@ -78,7 +78,10 @@ def get_notification_channel(
     notification_channel_id: int,
     db: Session = Depends(get_db),
 ):
-    return _get_notification_channel(user_id, notification_channel_id, db)
+    nc = _get_notification_channel(user_id, notification_channel_id, db)
+    if None is nc:  # this is implemented so integration tests are easier
+        raise HTTPException(status_code=404)
+    return nc
 
 
 @app.delete(
@@ -105,8 +108,6 @@ def get_notification_channel_lifetime(
     db: Session = Depends(get_db),
 ):
     nc = _get_notification_channel(user_id, notification_channel_id, db)
-    if None is nc:
-        raise HTTPException(status_code=404, detail="Notification Channel not found")
 
     return NotificationChannelLifeTimeSchema(channel_life_time=nc.channel_life_time)
 
@@ -122,10 +123,6 @@ def update_notification_channel_lifetime(
     notification_channel_life_time: NotificationChannelLifeTimeSchema,
     db: Session = Depends(get_db),
 ):
-    nc = _get_notification_channel(user_id, notification_channel_id, db)
-    if None is nc:
-        raise HTTPException(status_code=404, detail="Notification Channel not found")
-
     _update_notification_channel_life_time(
         user_id, notification_channel_id, notification_channel_life_time, db
     )

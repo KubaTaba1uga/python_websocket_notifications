@@ -9,14 +9,7 @@ from notifications_service.src.web_app import app
 client = TestClient(app)
 
 
-# def test_list_notification_channels_no_channels():
-#     USER_ID = 1
-#     response = client.get(f"/{USER_ID}/channels")
-#     assert 200 == response.status_code
-#     assert [] == response.json()
-
-
-def test_list_notification_channels_success(notification_channel):
+def test_list_notification_channels_success():
     USER_ID = 1
     response = client.get(f"/{USER_ID}/channels")
     assert 200 == response.status_code

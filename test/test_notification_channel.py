@@ -3,15 +3,17 @@
 from copy import copy
 
 import requests
-from fastapi.testclient import TestClient
+
+from .utils import create_notification_channel
+from .utils import get_notification_channel
+from .utils import get_notification_channels_list
 
 APP_URL = "http://127.0.0.1"
 NOTIFICATIONS_SERVICE_URL = APP_URL + ":8080"
+USER_ID = 5
 
 
 def test_create_notification_channel():
-    URL_FORMAT, USER_ID = NOTIFICATIONS_SERVICE_URL + "/{}/channels", 5
-
     test_data = {
         "clientCorrelator": "123",
         "applicationTag": "myTag",
@@ -25,7 +27,9 @@ def test_create_notification_channel():
 
     expected_data = copy(test_data)
 
-    response = requests.post(URL_FORMAT.format(USER_ID), json=test_data)
+    response = create_notification_channel(
+        NOTIFICATIONS_SERVICE_URL, USER_ID, test_data
+    )
 
     assert response.status_code == 201
     received_data = response.json()
@@ -39,69 +43,76 @@ def test_create_notification_channel():
 
 
 def test_list_notification_channel(notification_channel_fabric):
-    URL_FORMAT = NOTIFICATIONS_SERVICE_URL + "/{}/channels"
+    expected_responses = [
+        notification_channel_fabric({"channelType": "WebSockets"}) for _ in range(10)
+    ]
 
-    expected_channels = [notification_channel_fabric() for _ in range(10)]
-
-    user_id = expected_channels[0].user_id
-
-    response = requests.get(URL_FORMAT.format(user_id))
+    response = get_notification_channels_list(NOTIFICATIONS_SERVICE_URL, USER_ID)
 
     assert 200 == response.status_code
     received = response.json()
 
     assert all(
-        any(exp_c.id == rec_c["id"] for rec_c in received)
-        for exp_c in expected_channels
+        any(exp_resp.json()["id"] == rec_c["id"] for rec_c in received)
+        for exp_resp in expected_responses
     )
 
 
 def test_get_notification_channel(notification_channel):
-    URL_FORMAT = NOTIFICATIONS_SERVICE_URL + "/{}/channels/{}"
-
     expected = {
         "channelType": "WebSockets",
         "channelLifeTime": 3599,
         "clientCorrelator": "123",
         "applicationTag": "myTag",
-        "channelData": {"maxNotifications": 10},
-        "id": 1,
+        "channelData": {
+            "maxNotifications": 10,
+            "channelURL": "ws://127.0.0.1/{}/channels/{}/ws",
+        },
+        "id": notification_channel["id"],
     }
+    expected["channelData"]["channelURL"] = expected["channelData"][
+        "channelURL"
+    ].format(USER_ID, expected["id"])
 
-    response = requests.get(
-        URL_FORMAT.format(notification_channel.user_id, notification_channel.id)
+    response = get_notification_channel(
+        NOTIFICATIONS_SERVICE_URL, USER_ID, expected["id"]
     )
 
     assert 200 == response.status_code
     received = response.json()
 
-    assert received == expected
+    assert expected == received
 
 
 def test_delete_notification_channel(notification_channel):
     URL_FORMAT = NOTIFICATIONS_SERVICE_URL + "/{}/channels/{}"
 
-    response = requests.delete(
-        URL_FORMAT.format(notification_channel.user_id, notification_channel.id)
-    )
+    response = requests.delete(URL_FORMAT.format(USER_ID, notification_channel["id"]))
 
     assert 204 == response.status_code
 
+    response = get_notification_channel(
+        NOTIFICATIONS_SERVICE_URL, USER_ID, notification_channel["id"]
+    )
+    assert 404 == response.status_code
 
-def test_get_notification_channel_lifetime(notification_channel):
-    URL_FORMAT = NOTIFICATIONS_SERVICE_URL + "/{}/channels/{}/channelLifetime"
 
-    expected = {"channelLifeTime": notification_channel.channel_life_time}
-
-    print(expected)
-    print(notification_channel.expiry_date_time)
-
-    response = requests.get(
-        URL_FORMAT.format(notification_channel.user_id, notification_channel.id)
+def test_get_notification_channels_list_lifetime(notification_channel):
+    URL_FORMAT, TIMEOUT = (
+        NOTIFICATIONS_SERVICE_URL + "/{}/channels/{}/channelLifetime",
+        3,
     )
 
+    expected = {"channelLifeTime": notification_channel["channelLifeTime"]}
+
+    response = requests.get(URL_FORMAT.format(USER_ID, notification_channel["id"]))
+
     assert 200 == response.status_code
-    assert expected == response.json()
+
+    received = response.json()
+    assert received["channelLifeTime"] in range(
+        expected["channelLifeTime"] - TIMEOUT, expected["channelLifeTime"]
+    )
 
 
 def test_put_notification_channel_lifetime(notification_channel):
@@ -113,7 +124,7 @@ def test_put_notification_channel_lifetime(notification_channel):
     expected = {"channelLifeTime": LIFETIME_IN_SECS}
 
     response = requests.put(
-        URL_FORMAT.format(notification_channel.user_id, notification_channel.id),
+        URL_FORMAT.format(USER_ID, notification_channel["id"]),
         json=expected,
     )
 
