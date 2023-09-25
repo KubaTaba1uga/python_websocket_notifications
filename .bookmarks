@@ -2,7 +2,17 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("test_we_app.py.notifications_channel"
+(("schemas.py.message_store"
+ (filename . "~/Github/python_websocket_notifications/message_store/src/schemas.py")
+ (front-context-string . "from pydantic im")
+ (rear-context-string)
+ (position . 1))
+("web_app.py.message_store"
+ (filename . "~/Github/python_websocket_notifications/message_store/src/web_app.py")
+ (front-context-string . "from fastapi imp")
+ (rear-context-string)
+ (position . 1))
+("test_we_app.py.notifications_channel"
  (filename . "~/Github/python_websocket_notifications/notifications_service/test/test_web_app.py")
  (front-context-string . " == response.sta")
  (rear-context-string . ")\n    assert 404")

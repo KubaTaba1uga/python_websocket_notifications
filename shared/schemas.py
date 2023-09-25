@@ -11,8 +11,11 @@ class UserSchema(BaseModel, DbModel):
     username: str
 
 
-class MessageSchema(BaseModel, DbModel):
-    id: int
+class MessageUserSchema(BaseModel, DbModel):
     from_: int
     to: int
     content: str
+
+
+class MessageServerSchema(MessageUserSchema):
+    id: int

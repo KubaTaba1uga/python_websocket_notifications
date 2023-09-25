@@ -24,11 +24,19 @@ class Message(Base):
 
 
 def get_user(db: Session, user_id: int) -> User:
-    return db.query(User).filter(User.id == user_id).first()
+    return _get_class_by_id(db, User, user_id)
 
 
-def get_users(db: Session, skip: int = 0, limit: int = 100) -> list:
-    return db.query(User).offset(skip).limit(limit).all()
+def list_users(db: Session, skip: int = 0, limit: int = 100) -> list:
+    return _list_class(db, User, skip, limit)
+
+
+def get_message(db: Session, msg_id: int) -> Message:
+    return _get_class_by_id(db, Message, msg_id)
+
+
+def list_messages(db: Session, skip: int = 0, limit: int = 100) -> list:
+    return _list_class(db, Message, skip, limit)
 
 
 def save_obj(db: Session, obj: Base):
@@ -37,3 +45,11 @@ def save_obj(db: Session, obj: Base):
     db.refresh(obj)
 
     return obj
+
+
+def _get_class_by_id(db, class_, id_):
+    return db.query(class_).filter(class_.id == id_).first()
+
+
+def _list_class(db, class_, skip, limit):
+    return db.query(class_).offset(skip).limit(limit).all()

@@ -52,6 +52,7 @@ def list_notification_channel(
     status_code=201,
 )
 def create_notification_channel(
+    # TO-DO hardcode domain in config, do not pass domain to app logic from view
     request: Request,
     user_id: int,
     notification_channel: NotificationChannelUserSchema,
@@ -81,8 +82,10 @@ def get_notification_channel(
 ):
     domain = get_host_domain(request)
     nc = _get_notification_channel(domain, user_id, notification_channel_id, db)
-    if None is nc:  # this is implemented so integration tests are easier, all data passed
-       # to application logic, has to be validated first on prod
+    if (
+        None is nc
+    ):  # this is implemented so integration tests are easier, all data passed
+        # to application logic, has to be validated first on prod
         raise HTTPException(status_code=404)
 
     return nc
