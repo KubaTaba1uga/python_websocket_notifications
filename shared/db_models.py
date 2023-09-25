@@ -59,7 +59,7 @@ class Subscription(Base, Duration):
     id = Column(Integer, primary_key=True, index=True)
     callback_reference = Column(PickleType)
     filter = Column(String)
-    client_correlation = Column(String)
+    client_correlator = Column(String)
     index = Column(Integer)
     restart_token = Column(String)
     max_events = Column(Integer)
