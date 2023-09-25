@@ -13,13 +13,13 @@ from sqlalchemy.sql import func
 
 from shared.database import Base
 from shared.db_models import save_obj
+from shared.spec_utils.channel_life_time_utils import \
+    convert_channel_life_time_to_expiration_date
+from shared.spec_utils.channel_life_time_utils import \
+    convert_expiration_date_to_channel_life_time
 
 from .config import get_proxy_endpoint_url
 from .schemas import NotificationChannelUserSchema
-from .spec_utils.channel_life_time_utils import \
-    convert_channel_life_time_to_expiration_date
-from .spec_utils.channel_life_time_utils import \
-    convert_expiration_date_to_channel_life_time
 
 
 class ChannelLifeTime:

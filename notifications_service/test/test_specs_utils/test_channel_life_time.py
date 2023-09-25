@@ -1,9 +1,9 @@
 from datetime import datetime
 from unittest.mock import patch
 
-from notifications_service.src.spec_utils.channel_life_time_utils import \
+from shared.spec_utils.channel_life_time_utils import \
     convert_channel_life_time_to_expiration_date
-from notifications_service.src.spec_utils.channel_life_time_utils import \
+from shared.spec_utils.channel_life_time_utils import \
     convert_expiration_date_to_channel_life_time
 
 
@@ -13,7 +13,7 @@ def test_convert_channel_lifetime_to_expiration_date():
     expected = datetime(2000, 6, 6, 1, 0, 0)
 
     with patch(
-        "notifications_service.src.spec_utils.channel_life_time_utils.datetime",
+        "shared.spec_utils.channel_life_time_utils.datetime",
     ) as mocked_datetime:
         mocked_datetime.now = lambda: now
 
@@ -30,7 +30,7 @@ def test_convert_expiration_date_to_channel_lifetime_positive():
     expected = 3600
 
     with patch(
-        "notifications_service.src.spec_utils.channel_life_time_utils.datetime",
+        "shared.spec_utils.channel_life_time_utils.datetime",
     ) as mocked_datetime:
         mocked_datetime.now = lambda: now
 
