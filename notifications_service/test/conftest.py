@@ -9,6 +9,7 @@ from notifications_service.src.db_models import NotificationChannel
 from notifications_service.src.db_models import save_obj
 from notifications_service.src.schemas import NotificationChannelUserSchema
 from shared.database import get_db
+from shared.db_models import Message
 
 # Make sure that the application source directory (this directory's parent) is
 # on sys.path.
@@ -34,7 +35,7 @@ def db_cleanup(db_local):
     def reset_table_counter(db_local, table):
         db_local.execute(text(f"ALTER SEQUENCE {table}_id_seq RESTART WITH 1"))
 
-    tables_to_teardown = [NotificationChannel.__tablename__]
+    tables_to_teardown = [NotificationChannel.__tablename__, Message.__tablename__]
 
     for table in tables_to_teardown:
         delete_table_records(db_local, table)

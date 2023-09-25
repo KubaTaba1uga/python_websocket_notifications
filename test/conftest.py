@@ -1,7 +1,7 @@
 import pytest
 
-from notifications_service.test.conftest import db
-from shared.db_models import get_users
+from notifications_service.test.conftest import db  # do not remove this line!
+from shared.db_models import list_users
 
 from .utils import create_notification_channel
 
@@ -11,7 +11,7 @@ NOTIFICATIONS_SERVICE_URL = APP_URL + ":8080"
 
 @pytest.fixture
 def db_users(db):
-    return get_users(db)
+    return list_users(db)
 
 
 @pytest.fixture

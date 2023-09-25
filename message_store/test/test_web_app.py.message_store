@@ -1,0 +1,20 @@
+from copy import copy
+
+import pytest
+from fastapi.testclient import TestClient
+
+
+from shared.db_models import get_message
+from message_store.src.web_app import app
+
+client = TestClient(app)
+
+
+def test_create_message_success():
+    msg_data = {"from": 1, "to": 2, "content": "I like cats and frogs."}
+    response = client.post("/messages", json=msg_data)
+    print(response.text)
+    assert 200 == response.status_code
+    assert [] == response.json()
+
+    assert False

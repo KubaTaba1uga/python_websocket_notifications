@@ -2,7 +2,12 @@
 ;;; This format is meant to be slightly human-readable;
 ;;; nevertheless, you probably don't want to edit it.
 ;;; -*- End Of Bookmark File Format Version Stamp -*-
-(("schemas.py.message_store"
+(("test_db_models.py.message_store"
+ (filename . "~/Github/python_websocket_notifications/message_store/test/test_db_models.py")
+ (front-context-string . "\ndef test_create")
+ (rear-context-string . "import schemas\n\n")
+ (position . 58))
+("schemas.py.message_store"
  (filename . "~/Github/python_websocket_notifications/message_store/src/schemas.py")
  (front-context-string . "from pydantic im")
  (rear-context-string)

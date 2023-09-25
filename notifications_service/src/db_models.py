@@ -109,7 +109,7 @@ def create_notification_channel(
     user_id: int,
     nc: NotificationChannelUserSchema,
 ) -> NotificationChannel:
-    db_notification_channel = NotificationChannel(
+    return NotificationChannel(
         user_id=user_id,
         channel_type=nc.channel_type,
         client_correlator=nc.client_correlator,
@@ -119,5 +119,3 @@ def create_notification_channel(
             nc.channel_life_time
         ),
     )
-
-    return save_obj(db, db_notification_channel)
