@@ -1,6 +1,6 @@
 # Python Websocket Notifications 
-Create http service for managing websocket channels.
-To make testsing easier, CRUD for app's data, can be implemented.
+Create http service for managing websocket channels. Add managing subscriptions capability to MessageSTtore.
+To make testsing easier, CRUD for app's data can be implemented.
 
 Managin channel has to be inline with [SPEC](https://github.com/KubaTaba1uga/python_websocket_notifications/blob/main/OMA-TS-REST_NetAPI_NotificationChannel-V1_0-20200319-C.pdf).  
 
@@ -16,22 +16,29 @@ Subscriptions are part of MessageStore. However channels(notifications) should b
 
 ### Subscription creation
 1. User makes post to messagestore /subscriptions (with callbackURL)
-2. Server add callbackURL to notifications proxies urls list 
-3. Server returns subscription data
+2. Server add callbackURL to notifications proxies urls list
+3. [Optional] If messages should be replayed from past, make post on NotificationService/replay
+4. Server returns subscription data
 
-### Proxying reuest
+### Message store Proxying reuest
 1. Server eceives any request
-2. If request matches change createrium it is being proxy to notification server
+2. If request matches change createrium
+   a.  make obj dump
+   b.  post dump to NotificationService/proxy
 3. Server processes request further
 4. Server returns response
 
-Message store makes obj dump (if request qualifies for change tracing) and sends it to NotificationService tohetger with user id (box id). <br>
-NotificationService downloads all subscriptions for specific user, if there is a match sends obj_dump to specific channel queue. <br>
-Websocket have two modes: broadcasting live or replaying past. <br>
-If websocket is broadcasting live, channel's queue is popped to recive a message. <br>
-If websocket is replaying from past, search is being performed to recive messages. <br>
+### Notification channel /proxy
+1. Server eceives obj dump and userId
+2. For each user's subscription
+   a. If obj dump match it's filter
+   b. Send to corresponding channel (queue?)
+5. Server returns response
 
-
+### Notification channel /replay
+1. Server receive info what subscription should be replayed from past
+2. Server creates worker which will send notifications to subscription's channel
+3. Server returns response
 
 ### Some notes:
 
@@ -92,7 +99,8 @@ Implementing whole API is mandatory. Users or api version can be mocked.
 ![image](https://github.com/KubaTaba1uga/python_websocket_notifications/assets/73971628/f9394868-5cb1-40bc-9821-e1a403f063e8)
 ![image](https://github.com/KubaTaba1uga/python_websocket_notifications/assets/73971628/258a244c-8ffa-458b-b315-ff50bebb6326)
 ![image](https://github.com/KubaTaba1uga/python_websocket_notifications/assets/73971628/7f5888bd-f2d7-4642-bd1b-8931906ad324)
-Let's assume for a moment that callback URL points to some <channel>/ws on the server. Then server uses that info to determine that all messages connected to this subscription should be sent to the cleint via this ws.
-This makes sense however it is in conflict with ## How i see relation between Subscription and Channel. I'm not sure yet which one is correct.
+
+Callback URL - NotificationSefvice/proxy
+If possible add info about channel to subscription. This way many to one (many subscriptions, one channel), or one to one relation between channelo and subscription can be preserved.
 
 
