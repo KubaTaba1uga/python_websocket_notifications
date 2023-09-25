@@ -47,9 +47,9 @@ class Duration:
         self.expiry_date_time = convert_channel_life_time_to_expiration_date(duration)
 
     def overwrite_duration(self, duration: int) -> None:
-        # hidden life time attribute is created to allow
+        # hidden duration attribute is created to allow
         #  ovewriting dynamic creation of it's public equivalent.
-        #  this way we can return requested life time,
+        #  this way we can return requested duration,
         #  when in fact few seconds has passed.
         self._duration = duration
 
