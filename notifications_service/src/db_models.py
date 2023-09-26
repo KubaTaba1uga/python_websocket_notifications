@@ -12,6 +12,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy.sql import func
 
 from shared.database import Base
+from shared.db_models import _delete_class_by_id_and_user_id
 from shared.db_models import _get_class_by_id_and_user_id
 from shared.db_models import _list_class_by_user_id
 from shared.spec_utils.channel_life_time_utils import \
@@ -89,9 +90,7 @@ def get_notification_channel(
 
 
 def delete_notification_channel(db: Session, user_id: int, channel_id: int) -> None:
-    db.query(NotificationChannel).filter(
-        NotificationChannel.user_id == user_id, NotificationChannel.id == channel_id
-    ).delete()
+    _delete_class_by_id_and_user_id(db, NotificationChannel, channel_id, user_id)
 
 
 def create_notification_channel(

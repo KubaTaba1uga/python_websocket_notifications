@@ -124,6 +124,12 @@ def create_subscription(
     )
 
 
+def delete_subscription(
+    db: Session, user_id: int, subscription_id: int
+) -> Subscription:
+    return _delete_class_by_id_and_user_id(db, Subscription, subscription_id, user_id)
+
+
 def save_obj(db: Session, obj: Base) -> None:
     db.add(obj)
     db.commit()
@@ -149,3 +155,7 @@ def _list_class_by_user_id(db, class_, user_id, skip, limit):
         # .limit(limit)
         .all()
     )
+
+
+def _delete_class_by_id_and_user_id(db, class_, id_, user_id):
+    db.query(class_).filter(class_.user_id == user_id, class_.id == id_).delete()

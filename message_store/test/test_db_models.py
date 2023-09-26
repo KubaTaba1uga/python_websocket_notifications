@@ -50,7 +50,7 @@ def test_create_subscription(db):
     assert sub_schema.filter == sub_db.filter
     assert sub_schema.client_correlator == sub_db.client_correlator
     assert 0 == sub_db.index
-    assert "dummy restart token" == sub_db.restart_token
+    assert None is sub_db.restart_token
     assert datetime(2000, 6, 7, 0, 0) == sub_db.expiry_date_time
 
 

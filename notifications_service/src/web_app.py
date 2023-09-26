@@ -2,10 +2,8 @@
 Let's assume that corresponding data are always valid:
    - user_id
    - notification_channel_id
-Unnecessary complications for POC.
+Validatin them would unnecessary complicated POC.
 """
-from functools import wraps
-
 from fastapi import Depends
 from fastapi import FastAPI
 from fastapi import HTTPException

@@ -87,7 +87,7 @@ def test_create_subscription_success():
         "duration": 86400,
         "filter": "** dummy filter **",
         "maxEvents": 100,
-        "restartToken": "dummy restart token",
+        "restartToken": None,
         "index": 0,
         "id": 1,
     }
@@ -128,3 +128,22 @@ def test_get_subscription_success(subscription):
     received_subscription = response.json()
 
     assert_subscription(subscription, received_subscription)
+
+
+def test_update_subscription_success(db, subscription):
+    subscription_id, user_id, TIMEOUT = subscription.id, 1, 3
+
+    test_data = {"duration": 100, "restartToken": "baba jaga patrzy, BU!"}
+
+    response = client.post(
+        f"/{user_id}/subscriptions/{subscription_id}", json=test_data
+    )
+    response_data = response.json()
+
+    db.refresh(subscription)
+
+    assert response_data["duration"] == test_data["duration"]
+    assert subscription.duration in range(
+        test_data["duration"] - TIMEOUT, test_data["duration"]
+    )
+    assert test_data["restartToken"] == subscription.restart_token

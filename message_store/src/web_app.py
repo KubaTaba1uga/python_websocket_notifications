@@ -1,6 +1,14 @@
+"""
+Let's assume that corresponding data are always valid:
+   - user_id
+   - message_id
+   - subscription_id
+Validatin them would unnecessary complicated POC.
+"""
 from fastapi import Depends
 from fastapi import FastAPI
 from fastapi import HTTPException
+from fastapi import Response
 from sqlalchemy.orm import Session
 
 from shared import db_models
@@ -9,10 +17,12 @@ from shared.database import get_db
 
 from .app_logic import create_message as _create_message
 from .app_logic import create_subscription as _create_subscription
+from .app_logic import delete_subscription as _delete_subscription
 from .app_logic import get_messages as _get_message
 from .app_logic import get_subscription as _get_subscription
 from .app_logic import list_messages as _list_message
 from .app_logic import list_subscriptions as _list_subscription
+from .app_logic import update_subscription as _update_subscription
 
 app = FastAPI()
 
@@ -104,3 +114,42 @@ def get_subscription(
     db: Session = Depends(get_db),
 ):
     return _get_subscription(user_id, subscription_id, db)
+
+
+@app.post(
+    "/{user_id}/subscriptions/{subscription_id}",
+    response_model=schemas.SubscriptionServerSchema,
+    response_model_by_alias=True,
+)
+def update_subscription(
+    user_id: int,
+    subscription_id: int,
+    subscription_update: schemas.SubscriptionUpdateSchema,
+    db: Session = Depends(get_db),
+):
+    # Handle special cases
+    if 0 == subscription_update.duration:
+        subscription_update.duration = schemas.DEFAULT_DURATION
+
+    sub_db = _update_subscription(user_id, subscription_id, subscription_update, db)
+
+    # Mock counter
+    if None is not subscription_update.duration:
+        sub_db.overwrite_duration(subscription_update.duration)
+
+    return sub_db
+
+
+@app.delete(
+    "/{user_id}/subscriptions/{subscription_id}",
+    response_model=schemas.SubscriptionServerSchema,
+    response_model_by_alias=True,
+)
+def delete_subscription(
+    user_id: int,
+    subscription_id: int,
+    db: Session = Depends(get_db),
+):
+    _delete_subscription(user_id, subscription_id, db)
+
+    return Response(status_code=204)

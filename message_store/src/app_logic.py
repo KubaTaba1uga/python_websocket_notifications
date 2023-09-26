@@ -38,5 +38,31 @@ def list_subscriptions(user_id: int, db: Session) -> List[db_models.Subscription
 
 def get_subscription(
     user_id: int, subscription_id: int, db: Session
-) -> List[db_models.Subscription]:
+) -> db_models.Subscription:
     return db_models.get_subscription(db, user_id, subscription_id)
+
+
+def update_subscription(
+    user_id: int,
+    subscription_id: int,
+    sub_update_schema: schemas.SubscriptionUpdateSchema,
+    db: Session,
+) -> db_models.Subscription:
+    # TO-DO make post to /replay
+    ATTRS_TO_UPDATE = ["duration", "restart_token"]
+
+    subscription = db_models.get_subscription(db, user_id, subscription_id)
+
+    for attr in ATTRS_TO_UPDATE:
+        if None is not (value := getattr(sub_update_schema, attr, None)):
+            setattr(subscription, attr, value)
+
+    db_models.save_obj(db, subscription)
+
+    return subscription
+
+
+def delete_subscription(user_id: int, subscription_id: int, db: Session) -> None:
+    db_models.delete_subscription(db, user_id, subscription_id)
+
+    return None

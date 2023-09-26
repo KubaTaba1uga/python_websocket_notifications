@@ -3,6 +3,7 @@ from typing import Optional
 from pydantic import BaseModel
 from pydantic import ConfigDict
 from pydantic import Field
+from pydantic import model_validator
 
 DEFAULT_DURATION = 86400  # 24h in sec
 DEFAULT_MAX_EVENTS = 100
@@ -44,8 +45,15 @@ class MessageServerSchema(MessageUserSchema):
 class SubscriptionUpdateSchema(BaseModel, DbModel):
     model_config = CAMEL_CONFIG
 
-    duration: Optional[int] = Field(default=None)
-    restart_token: Optional[str] = Field(default=None)
+    duration: Optional[int] = None
+    restart_token: Optional[str] = None
+
+    @model_validator(mode="before")
+    def check_duration_or_restart_token(cls, values):
+        if (values.get("duration") is None) and (values.get("restartToken") is None):
+            raise ValueError("either duration or restartToken is required")
+
+        return values
 
 
 class SubscriptionUserSchema(SubscriptionUpdateSchema):
@@ -57,6 +65,10 @@ class SubscriptionUserSchema(SubscriptionUpdateSchema):
     max_events: Optional[int] = Field(default=DEFAULT_MAX_EVENTS)
     ## TO-DO implement attributes filtering
     ## TO-DO implement inline imdn boolean
+
+    @model_validator(mode="after")
+    def check_duration_or_restart_token(cls, values):
+        return values
 
 
 class SubscriptionServerSchema(SubscriptionUserSchema):
