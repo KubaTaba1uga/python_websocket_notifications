@@ -4,7 +4,7 @@ import pytest
 from fastapi.testclient import TestClient
 
 from message_store.src.web_app import app
-from shared.db_models import get_message
+from shared.db_models import get_subscription
 
 client = TestClient(app)
 
@@ -147,3 +147,13 @@ def test_update_subscription_success(db, subscription):
         test_data["duration"] - TIMEOUT, test_data["duration"]
     )
     assert test_data["restartToken"] == subscription.restart_token
+
+
+def test_delete_subscription_success(subscription, db):
+    subscription_id, user_id = subscription.id, 1
+
+    response = client.delete(f"/{user_id}/subscriptions/{subscription_id}")
+
+    assert 204 == response.status_code
+
+    assert None is get_subscription(db, user_id, subscription_id)

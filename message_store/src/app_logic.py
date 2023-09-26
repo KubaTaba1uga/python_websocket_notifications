@@ -65,4 +65,5 @@ def update_subscription(
 def delete_subscription(user_id: int, subscription_id: int, db: Session) -> None:
     db_models.delete_subscription(db, user_id, subscription_id)
 
+    db.commit()
     return None
