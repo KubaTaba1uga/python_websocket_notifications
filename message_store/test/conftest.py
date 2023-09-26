@@ -40,8 +40,13 @@ def message(message_fabric):
 
 @pytest.fixture
 def subscription_fabric(db):
+    USER_ID = 1
+
     def local_fabric(
-        user_id: int, callback_reference: dict, filter: str, client_correlator: str
+        user_id: int = USER_ID,
+        callback_reference: dict = {"notifyURL": "http://localhost/proxy"},
+        filter: str = "*",
+        client_correlator: str = f"ws://localhost/channels/{USER_ID}/ws",
     ) -> Subscription:
         sub_schema = SubscriptionUserSchema(
             callback_reference=callback_reference,
@@ -58,13 +63,7 @@ def subscription_fabric(db):
 
 @pytest.fixture
 def subscription(subscription_fabric):
-    USER_ID = 1
-    return subscription_fabric(
-        USER_ID,
-        callback_reference={"notifyURL": "http://localhost/proxy"},
-        filter="*",
-        client_correlator=f"ws://localhost/channels/{USER_ID}/ws",
-    )
+    return subscription_fabric()
 
 
 # @pytest.fixture

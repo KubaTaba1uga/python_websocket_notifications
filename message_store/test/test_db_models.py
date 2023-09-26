@@ -55,8 +55,6 @@ def test_create_subscription(db):
 
 
 def test_get_subscription(db, subscription):
-    subscription: db_models.Subscription = subscription
-
     sub_db = db_models.get_subscription(db, subscription.user_id, subscription.id)
 
     assert subscription.user_id == sub_db.user_id
@@ -66,3 +64,18 @@ def test_get_subscription(db, subscription):
     assert subscription.index == sub_db.index
     assert subscription.restart_token == sub_db.restart_token
     assert subscription.expiry_date_time == sub_db.expiry_date_time
+
+
+def test_list_subscriptions(db, subscription_fabric):
+    SUBS_AMOUNT = 10
+
+    subscriptions_list = [subscription_fabric() for _ in range(SUBS_AMOUNT)]
+
+    sub = subscriptions_list[0]
+
+    received = db_models.list_subscriptions(db, sub.user_id)
+
+    assert SUBS_AMOUNT == len(received)
+    assert all(
+        any(exp_c.id == rec_c.id for rec_c in received) for exp_c in subscriptions_list
+    )

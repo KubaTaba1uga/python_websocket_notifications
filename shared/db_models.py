@@ -1,3 +1,5 @@
+from typing import List
+
 from sqlalchemy import Boolean
 from sqlalchemy import Column
 from sqlalchemy import DateTime
@@ -89,11 +91,22 @@ def create_messge(db: Session, message: MessageUserSchema) -> Message:
     return Message(from_=message.from_, to=message.to, content=message.content)
 
 
-def get_subscription(db: Session, user_id: int, subscription_id: int) -> User:
+def get_subscription(db: Session, user_id: int, subscription_id: int) -> Subscription:
     return (
         db.query(Subscription)
         .filter(Subscription.user_id == user_id, Subscription.id == subscription_id)
         .first()
+    )
+
+
+def list_subscriptions(
+    db: Session, user_id: int, skip: int = 0, limit: int = 100
+) -> List[Subscription]:
+    return (
+        db.query(Subscription).filter(Subscription.user_id == user_id)
+        # .offset(skip)
+        # .limit(limit)
+        .all()
     )
 
 
