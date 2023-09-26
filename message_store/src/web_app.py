@@ -8,8 +8,11 @@ from shared import schemas
 from shared.database import get_db
 
 from .app_logic import create_message as _create_message
+from .app_logic import create_subscription as _create_subscription
 from .app_logic import get_messages as _get_message
+from .app_logic import get_subscription as _get_subscription
 from .app_logic import list_messages as _list_message
+from .app_logic import list_subscriptions as _list_subscription
 
 app = FastAPI()
 
@@ -58,3 +61,43 @@ def list_message(db: Session = Depends(get_db)):
 )
 def get_message(msg_id: int, db: Session = Depends(get_db)):
     return _get_message(msg_id, db)
+
+
+@app.post(
+    "/{user_id}/subscriptions",
+    response_model=schemas.SubscriptionServerSchema,
+    response_model_by_alias=True,
+    status_code=201,
+)
+def create_subscription(
+    user_id: int,
+    subscription: schemas.SubscriptionUserSchema,
+    db: Session = Depends(get_db),
+):
+    return _create_subscription(user_id, subscription, db)
+
+
+@app.get(
+    "/{user_id}/subscriptions",
+    response_model=list[schemas.SubscriptionServerSchema],
+    response_model_by_alias=True,
+    status_code=200,
+)
+def list_subscription(
+    user_id: int,
+    db: Session = Depends(get_db),
+):
+    return _list_subscription(user_id, db)
+
+
+@app.get(
+    "/{user_id}/subscriptions/{subscription_id}",
+    response_model=schemas.SubscriptionServerSchema,
+    response_model_by_alias=True,
+)
+def get_subscription(
+    user_id: int,
+    subscription_id: int,
+    db: Session = Depends(get_db),
+):
+    return _get_subscription(user_id, subscription_id, db)

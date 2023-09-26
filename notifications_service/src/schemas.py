@@ -5,20 +5,10 @@ from pydantic import BaseModel
 from pydantic import ConfigDict
 from pydantic import Field
 
+from shared.schemas import CAMEL_CONFIG
+
 DEFAULT_CHANNEL_LIFE_TIME = 86400  # 24h in sec
 
-
-def to_camel(string: str) -> str:
-    string_parts = string.split("_")
-    lowercase = string_parts.pop(0)
-    return lowercase + "".join(word.capitalize() for word in string_parts)
-
-
-CAMEL_CONFIG = ConfigDict(
-    orm_mode=True,
-    alias_generator=to_camel,
-    populate_by_name=True,
-)
 
 # TO-DO improve fields' annotations
 
