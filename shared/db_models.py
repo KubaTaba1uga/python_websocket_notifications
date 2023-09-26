@@ -15,6 +15,7 @@ from shared.spec_utils.channel_life_time_utils import \
 
 from .database import Base
 from .schemas import MessageUserSchema
+from .schemas import SubscriptionUserSchema
 
 
 class User(Base):
@@ -57,6 +58,7 @@ class Duration:
 class Subscription(Base, Duration):
     __tablename__ = "subscription"
     id = Column(Integer, primary_key=True, index=True)
+    user_id = Column(Integer, ForeignKey("app_user.id"))
     callback_reference = Column(PickleType)
     filter = Column(String)
     client_correlator = Column(String)
@@ -85,6 +87,41 @@ def list_messages(db: Session, skip: int = 0, limit: int = 100) -> list:
 
 def create_messge(db: Session, message: MessageUserSchema) -> Message:
     return Message(from_=message.from_, to=message.to, content=message.content)
+
+
+def get_subscription(db: Session, user_id: int, subscription_id: int) -> User:
+    return (
+        db.query(Subscription)
+        .filter(Subscription.user_id == user_id, Subscription.id == subscription_id)
+        .first()
+    )
+
+
+def create_subscription(
+    db: Session, user_id: int, subscription: SubscriptionUserSchema
+) -> Subscription:
+    restart_token = subscription.restart_token
+
+    # TO-DO implement restart token logic:
+    #  Subscription restart token representing the point after
+    #  the change(s) being notified. See section 5.1.4.3.
+    #  This value applies to the box as a whole, and can be
+    #  used independently of any particular subscription.
+    #  Let's take obj creation time as restartToken. Then
+    #  if no restart token take now timestamp.
+    if None is restart_token:
+        restart_token = "dummy restart token"
+
+    return Subscription(
+        user_id=user_id,
+        callback_reference=subscription.callback_reference,
+        filter=subscription.filter,
+        client_correlator=subscription.client_correlator,
+        index=0,
+        restart_token=restart_token,
+        max_events=subscription.max_events,
+        duration=subscription.duration,
+    )
 
 
 def save_obj(db: Session, obj: Base) -> None:

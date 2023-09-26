@@ -5,9 +5,12 @@ import pytest
 
 from notifications_service.test.conftest import db
 from shared.db_models import create_messge
+from shared.db_models import create_subscription
 from shared.db_models import Message
 from shared.db_models import save_obj
+from shared.db_models import Subscription
 from shared.schemas import MessageUserSchema
+from shared.schemas import SubscriptionUserSchema
 
 # Make sure that the application source directory (this directory's parent) is
 # on sys.path.
@@ -33,6 +36,35 @@ def message_fabric(db):
 @pytest.fixture
 def message(message_fabric):
     return message_fabric(1, 2, "Hi")
+
+
+@pytest.fixture
+def subscription_fabric(db):
+    def local_fabric(
+        user_id: int, callback_reference: dict, filter: str, client_correlator: str
+    ) -> Subscription:
+        sub_schema = SubscriptionUserSchema(
+            callback_reference=callback_reference,
+            filter=filter,
+            client_correlator=client_correlator,
+        )
+
+        save_obj(db, sub_obj := create_subscription(db, user_id, sub_schema))
+
+        return sub_obj
+
+    return local_fabric
+
+
+@pytest.fixture
+def subscription(subscription_fabric):
+    USER_ID = 1
+    return subscription_fabric(
+        USER_ID,
+        callback_reference={"notifyURL": "http://localhost/proxy"},
+        filter="*",
+        client_correlator=f"ws://localhost/channels/{USER_ID}/ws",
+    )
 
 
 # @pytest.fixture

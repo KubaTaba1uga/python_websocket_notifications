@@ -115,7 +115,5 @@ def create_notification_channel(
         client_correlator=nc.client_correlator,
         application_tag=nc.application_tag,
         channel_data=nc.channel_data,
-        expiry_date_time=convert_channel_life_time_to_expiration_date(
-            nc.channel_life_time
-        ),
+        channel_life_time=nc.channel_life_time,
     )

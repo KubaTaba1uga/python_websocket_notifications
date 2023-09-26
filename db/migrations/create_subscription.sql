@@ -7,6 +7,9 @@ CREATE TABLE subscription (
  index INT,
  restart_token TEXT,
  max_events INT,
- objectAttributeNames TEXT,
- inlineImdn BOOLEAN
+ object_attribute_names TEXT,
+ inline_imdn BOOLEAN,
+ user_id INT,
+ CONSTRAINT fk_userId FOREIGN KEY(user_id) REFERENCES app_user(id) 
+
 )

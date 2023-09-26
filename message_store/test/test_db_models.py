@@ -1,3 +1,6 @@
+from datetime import datetime
+from unittest.mock import patch
+
 from shared import db_models
 from shared import schemas
 
@@ -24,3 +27,42 @@ def test_create_msg(db):
     assert msg_schema.to == msg_obj.to
     assert msg_schema.content == msg_obj.content
     assert isinstance(msg_obj.id, int)
+
+
+def test_create_subscription(db):
+    USER_ID = 1
+
+    sub_schema = schemas.SubscriptionUserSchema(
+        callback_reference={"notifyURL": "http://localhost/proxy"},
+    )
+
+    now = datetime(2000, 6, 6, 0, 0, 0)
+
+    with patch(
+        "shared.spec_utils.channel_life_time_utils.datetime",
+    ) as mocked_datetime:
+        mocked_datetime.now = lambda: now
+
+        sub_db = db_models.create_subscription(db, USER_ID, sub_schema)
+
+    assert USER_ID == sub_db.user_id
+    assert sub_schema.callback_reference == sub_db.callback_reference
+    assert sub_schema.filter == sub_db.filter
+    assert sub_schema.client_correlator == sub_db.client_correlator
+    assert 0 == sub_db.index
+    assert "dummy restart token" == sub_db.restart_token
+    assert datetime(2000, 6, 7, 0, 0) == sub_db.expiry_date_time
+
+
+def test_get_subscription(db, subscription):
+    subscription: db_models.Subscription = subscription
+
+    sub_db = db_models.get_subscription(db, subscription.user_id, subscription.id)
+
+    assert subscription.user_id == sub_db.user_id
+    assert subscription.callback_reference == sub_db.callback_reference
+    assert subscription.filter == sub_db.filter
+    assert subscription.client_correlator == sub_db.client_correlator
+    assert subscription.index == sub_db.index
+    assert subscription.restart_token == sub_db.restart_token
+    assert subscription.expiry_date_time == sub_db.expiry_date_time

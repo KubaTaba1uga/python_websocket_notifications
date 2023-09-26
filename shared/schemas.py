@@ -4,7 +4,7 @@ from pydantic import BaseModel
 from pydantic import Field
 
 DEFAULT_DURATION = 86400  # 24h in sec
-DEFAULT_MAX_EVENTS = 100  # 24h in sec
+DEFAULT_MAX_EVENTS = 100
 
 
 class DbModel:
@@ -29,7 +29,8 @@ class MessageServerSchema(MessageUserSchema):
 
 class SubscriptionUserSchema(BaseModel, DbModel):
     callback_reference: dict
-    duration: Optional[int] = Field(default=DEFAULT_DURATION)
+    duration: int = Field(default=DEFAULT_DURATION)
+    # TO-DO by default match all events
     filter: Optional[str] = Field(default="** dummy filter **")
     client_correlator: Optional[str] = Field(default=None)
     restart_token: Optional[str] = Field(default=None)
