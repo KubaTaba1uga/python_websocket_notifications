@@ -74,7 +74,10 @@ def create_subscription(
     subscription: schemas.SubscriptionUserSchema,
     db: Session = Depends(get_db),
 ):
-    return _create_subscription(user_id, subscription, db)
+    sub_db = _create_subscription(user_id, subscription, db)
+    sub_db.overwrite_duration(subscription.duration)
+
+    return sub_db
 
 
 @app.get(

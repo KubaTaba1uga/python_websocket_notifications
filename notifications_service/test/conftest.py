@@ -6,10 +6,10 @@ from sqlalchemy.sql import text
 
 from notifications_service.src.db_models import create_notification_channel
 from notifications_service.src.db_models import NotificationChannel
-from notifications_service.src.db_models import save_obj
 from notifications_service.src.schemas import NotificationChannelUserSchema
 from shared.database import get_db
 from shared.db_models import Message
+from shared.db_models import save_obj
 from shared.db_models import Subscription
 
 # Make sure that the application source directory (this directory's parent) is

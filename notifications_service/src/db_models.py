@@ -12,7 +12,8 @@ from sqlalchemy.orm import Session
 from sqlalchemy.sql import func
 
 from shared.database import Base
-from shared.db_models import save_obj
+from shared.db_models import _get_class_by_id_and_user_id
+from shared.db_models import _list_class_by_user_id
 from shared.spec_utils.channel_life_time_utils import \
     convert_channel_life_time_to_expiration_date
 from shared.spec_utils.channel_life_time_utils import \
@@ -78,24 +79,13 @@ class NotificationChannel(Base, ChannelLifeTime, ResourceURL, CallbackURL):
 def list_notification_channels(
     db: Session, user_id: int, skip: int = 0, limit: int = 100
 ) -> List[NotificationChannel]:
-    return (
-        db.query(NotificationChannel).filter(NotificationChannel.user_id == user_id)
-        # .offset(skip)
-        # .limit(limit)
-        .all()
-    )
+    return _list_class_by_user_id(db, NotificationChannel, user_id, skip, limit)
 
 
 def get_notification_channel(
     db: Session, user_id: int, channel_id: int
 ) -> NotificationChannel:
-    return (
-        db.query(NotificationChannel)
-        .filter(
-            NotificationChannel.user_id == user_id, NotificationChannel.id == channel_id
-        )
-        .first()
-    )
+    return _get_class_by_id_and_user_id(db, NotificationChannel, channel_id, user_id)
 
 
 def delete_notification_channel(db: Session, user_id: int, channel_id: int) -> None:

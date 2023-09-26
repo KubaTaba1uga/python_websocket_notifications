@@ -2,6 +2,8 @@ from typing import List
 
 from sqlalchemy.orm import Session
 
+from shared.db_models import save_obj
+
 from . import db_models
 from .config import SCHEME
 from .schemas import NotificationChannelLifeTimeSchema
@@ -29,12 +31,12 @@ def create_notification_channel(
     db: Session,
 ) -> db_models.NotificationChannel:
     new_nc = db_models.create_notification_channel(db, user_id, notification_channel)
-    db_models.save_obj(db, new_nc)
+    save_obj(db, new_nc)
 
     new_nc.channel_data = render_channel_data(
         new_nc, notification_channel.channel_data, {"domain": domain}
     )
-    db_models.save_obj(db, new_nc)
+    save_obj(db, new_nc)
 
     return new_nc
 
@@ -64,5 +66,5 @@ def update_notification_channel_life_time(
 ) -> None:
     new_nc = db_models.get_notification_channel(db, user_id, nc_id)
     new_nc.channel_life_time = lifetime.channel_life_time
-    db_models.save_obj(db, new_nc)
+    save_obj(db, new_nc)
     return None

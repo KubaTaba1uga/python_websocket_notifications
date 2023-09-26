@@ -41,15 +41,19 @@ class MessageServerSchema(MessageUserSchema):
     id: int
 
 
-class SubscriptionUserSchema(BaseModel, DbModel):
+class SubscriptionUpdateSchema(BaseModel, DbModel):
     model_config = CAMEL_CONFIG
 
+    duration: Optional[int] = Field(default=None)
+    restart_token: Optional[str] = Field(default=None)
+
+
+class SubscriptionUserSchema(SubscriptionUpdateSchema):
     callback_reference: dict
     duration: int = Field(default=DEFAULT_DURATION)
     # TO-DO by default match all events
     filter: Optional[str] = Field(default="** dummy filter **")
     client_correlator: Optional[str] = Field(default=None)
-    restart_token: Optional[str] = Field(default=None)
     max_events: Optional[int] = Field(default=DEFAULT_MAX_EVENTS)
     ## TO-DO implement attributes filtering
     ## TO-DO implement inline imdn boolean

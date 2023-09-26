@@ -92,38 +92,25 @@ def create_messge(db: Session, message: MessageUserSchema) -> Message:
 
 
 def get_subscription(db: Session, user_id: int, subscription_id: int) -> Subscription:
-    return (
-        db.query(Subscription)
-        .filter(Subscription.user_id == user_id, Subscription.id == subscription_id)
-        .first()
-    )
+    return _get_class_by_id_and_user_id(db, Subscription, subscription_id, user_id)
 
 
 def list_subscriptions(
     db: Session, user_id: int, skip: int = 0, limit: int = 100
 ) -> List[Subscription]:
-    return (
-        db.query(Subscription).filter(Subscription.user_id == user_id)
-        # .offset(skip)
-        # .limit(limit)
-        .all()
-    )
+    return _list_class_by_user_id(db, Subscription, user_id, skip, limit)
 
 
 def create_subscription(
     db: Session, user_id: int, subscription: SubscriptionUserSchema
 ) -> Subscription:
-    restart_token = subscription.restart_token
-
     # TO-DO implement restart token logic:
     #  Subscription restart token representing the point after
     #  the change(s) being notified. See section 5.1.4.3.
     #  This value applies to the box as a whole, and can be
     #  used independently of any particular subscription.
-    #  Let's take obj creation time as restartToken. Then
-    #  if no restart token take now timestamp.
-    if None is restart_token:
-        restart_token = "dummy restart token"
+    #  Let's take obj creation time as restartToken.
+    #  If no restartToken just do not post to /replay.
 
     return Subscription(
         user_id=user_id,
@@ -131,7 +118,7 @@ def create_subscription(
         filter=subscription.filter,
         client_correlator=subscription.client_correlator,
         index=0,
-        restart_token=restart_token,
+        restart_token=subscription.restart_token,
         max_events=subscription.max_events,
         duration=subscription.duration,
     )
@@ -149,3 +136,16 @@ def _get_class_by_id(db, class_, id_):
 
 def _list_class(db, class_, skip, limit):
     return db.query(class_).offset(skip).limit(limit).all()
+
+
+def _get_class_by_id_and_user_id(db, class_, id_, user_id):
+    return db.query(class_).filter(class_.id == id_, class_.user_id == user_id).first()
+
+
+def _list_class_by_user_id(db, class_, user_id, skip, limit):
+    return (
+        db.query(class_).filter(class_.user_id == user_id)
+        # .offset(skip)
+        # .limit(limit)
+        .all()
+    )

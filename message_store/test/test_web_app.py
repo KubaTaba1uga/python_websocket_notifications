@@ -84,7 +84,7 @@ def test_create_subscription_success():
     expected_data = {
         "callbackReference": subscription_data["callback_reference"],
         "clientCorrelator": None,
-        "duration": 86399,
+        "duration": 86400,
         "filter": "** dummy filter **",
         "maxEvents": 100,
         "restartToken": "dummy restart token",
