@@ -5,6 +5,7 @@ from fastapi.testclient import TestClient
 
 from message_store.src.web_app import app
 from shared.db_models import get_subscription
+from shared.schemas import DEFAULT_DURATION
 
 client = TestClient(app)
 
@@ -130,7 +131,7 @@ def test_get_subscription_success(subscription):
     assert_subscription(subscription, received_subscription)
 
 
-def test_update_subscription_success(db, subscription):
+def test_update_subscription_success_all_data(db, subscription):
     subscription_id, user_id, TIMEOUT = subscription.id, 1, 3
 
     test_data = {"duration": 100, "restartToken": "baba jaga patrzy, BU!"}
@@ -147,6 +148,64 @@ def test_update_subscription_success(db, subscription):
         test_data["duration"] - TIMEOUT, test_data["duration"]
     )
     assert test_data["restartToken"] == subscription.restart_token
+
+
+def test_update_subscription_success_duration_only(db, subscription):
+    subscription_id, user_id, TIMEOUT = subscription.id, 1, 3
+
+    test_data, org_reset_token = {"duration": 100}, subscription.restart_token
+
+    response = client.post(
+        f"/{user_id}/subscriptions/{subscription_id}", json=test_data
+    )
+    response_data = response.json()
+
+    db.refresh(subscription)
+
+    assert response_data["duration"] == test_data["duration"]
+    assert subscription.duration in range(
+        test_data["duration"] - TIMEOUT, test_data["duration"]
+    )
+    assert org_reset_token == response_data["restartToken"]
+    assert org_reset_token == subscription.restart_token
+
+
+def test_update_subscription_success_duration_0(db, subscription):
+    subscription_id, user_id, TIMEOUT = subscription.id, 1, 3
+
+    test_data, org_reset_token = {"duration": 0}, subscription.restart_token
+
+    response = client.post(
+        f"/{user_id}/subscriptions/{subscription_id}", json=test_data
+    )
+    response_data = response.json()
+
+    db.refresh(subscription)
+
+    assert response_data["duration"] == DEFAULT_DURATION
+    assert subscription.duration in range(DEFAULT_DURATION - TIMEOUT, DEFAULT_DURATION)
+    assert org_reset_token == response_data["restartToken"]
+    assert org_reset_token == subscription.restart_token
+
+
+def test_update_subscription_success_restart_token_only(db, subscription):
+    subscription_id, user_id = subscription.id, 1
+
+    test_data, org_expiry_date = {
+        "restartToken": "nanana hafanana"
+    }, subscription.expiry_date_time
+
+    response = client.post(
+        f"/{user_id}/subscriptions/{subscription_id}", json=test_data
+    )
+    response_data = response.json()
+
+    db.refresh(subscription)
+
+    assert test_data["restartToken"] == response_data["restartToken"]
+    assert test_data["restartToken"] == subscription.restart_token
+
+    assert org_expiry_date == subscription.expiry_date_time
 
 
 def test_delete_subscription_success(subscription, db):
